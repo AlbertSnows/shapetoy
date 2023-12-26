@@ -1,6 +1,6 @@
 import { when } from "../utility.js";
 import { generate } from "../actions/draw/handlers.js";
-import { init_grab_shape, init_move_shape, init_release_shape } from "../actions/drag.js";
+import { init_grab_shape, move_shape } from "../actions/drag.js";
 import { polyfill_animation_frames } from "./init_helpers.js"
 const canvas = document.getElementById("canvas");
 
@@ -35,22 +35,26 @@ document.getElementById('generate_rectangle')
 window.requestAnimationFrame = polyfill_animation_frames();
 // attach movement
 canvas.addEventListener('mousedown', (event) => {
+		const boundings = canvas.getBoundingClientRect();
     const mouse_down_x = event.clientX - boundings.left;
     const mouse_down_y = event.clientY - boundings.top;
 		state.cursor.x = mouse_down_x;
 		state.cursor.y = mouse_down_y;
-    shape_data = grab_shape(cursor);
+    const shape_data = grab_shape(state.cursor);
     state.selected_shape = shape_data;
     state.holding_shape = shape_data !== null;
 });
-const dragShape = (event) => {
-    var mouseMoveX = event.clientX - boundings.left;
-    var mouseMoveY = event.clientY - boundings.top;
-    currentBall.x = mouseMoveX;
-    currentBall.y = mouseMoveY;
-    // drawBalls(); todo: any shape
+const listen_for_shape_drag = (event) => {
+	const boundings = canvas.getBoundingClientRect();
+  const mouse_down_x = event.clientX - boundings.left;
+	const mouse_down_y = event.clientY - boundings.top;
+	const selected_shape = state.selected_shape;
+	selected_shape.x = mouse_down_x;
+	selected_shape.y = mouse_down_y;
+	move_shape(state);
 };
-canvas.addEventListener('mousemove', (event) => when_holding(() => dragShape(event)));
+canvas.addEventListener('mousemove', 
+	(event) => when_holding(() => listen_for_shape_drag(event)));
 canvas.addEventListener('mouseup', (event) => {
     state.selected_shape = null;
     state.holding_shape = false;
