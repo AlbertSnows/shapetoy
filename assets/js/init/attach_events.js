@@ -1,32 +1,32 @@
 import { when } from "../src/utility.js";
-import { generate_circle, generate_rectangle } from "../src/actions/generate.js";
+import { generate_circle, generate_rectangle } from "../src/actions/draw.js";
 import { grab_shape, move_shape, release_shape } from "../src/actions/drag.js";
 import { polyfill_animation_frames } from "./init_helpers.js"
-import Quadtree from '@timohausmann/quadtree-js';
+import { Quadtree } from '@timohausmann/quadtree-ts';
 
 const canvas = document.getElementById("canvas");
-const state = { 
+let state = { 
 	holding_shape: false, 
 	selected_shape: null,
-  drawn_shapes: new Quadtree({x: 0, y:0, width: canvas?.clientWidth, height: canvas?.clientHeight }) };
+  drawn_shapes: new Quadtree({width: canvas?.clientWidth, height: canvas?.clientHeight }) };
 
 const context = canvas.getContext("2d");
 const when_canvas_exists = when(() => canvas.getContext !== null && canvas.getContext !== undefined);
 const when_holding = when(() => state.holding_shape);
 const boundings = canvas.getBoundingClientRect();
-
+const init_grab_shape = grab_shape(state);
 // attach generate
-document.getElementById('generateCircle')
-	.addEventListener('click', () => when_canvas_exists(() => generateCircle(canvas)));
-document.getElementById('generateRectangle')
-	.addEventListener('click', () => when_canvas_exists(() => generateRectangle(canvas)));
+document.getElementById('generate_circle')
+	.addEventListener('click', () => when_canvas_exists(() => generate_circle(canvas)));
+document.getElementById('generate_rectangle')
+	.addEventListener('click', () => when_canvas_exists(() => generate_rectangle(canvas)));
 window.requestAnimationFrame = polyfillAnimationFrames();
 	
 // attach movement
 canvas.addEventListener('mousedown', (event) => {
 	var mouseDownX = event.clientX - boundings.left;
 	var mouseDownY = event.clientY - boundings.top;
-	// isMitOnBall(mouseDownX, mouseDownY) todo
+	state = grab_shape(mouseDownX, mouseDownY);
 });
 
 const dragShape = (event) => {
