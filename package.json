@@ -2,5 +2,18 @@
   "devDependencies": {
     "@timohausmann/quadtree-ts": "^2.2.2",
     "@timohausmann/quadtree-js": "^1.2.6"
-  }
+  },
+  "name": "shapetoy",
+  "description": "JS canvas project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
