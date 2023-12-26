@@ -17,7 +17,7 @@ const generate_circle = (state) => {
 	
 	state.existing_shapes.push(circle);
 	state.shape_locations.insert(circle);	
-	drawObjects(state.existing_shapes, ctx);
+	drawObjects(state.existing_shapes, canvas);
 };
 
  // Function to generate a random number within a range
@@ -41,7 +41,7 @@ const generate_rectangle = (state) => {
 });
 state.existing_shapes.push(rect);
 state.shape_locations.insert(rect);
-drawObjects(state.existing_shapes, ctx);
+drawObjects(state.existing_shapes, canvas);
 };
 
 const generate = {

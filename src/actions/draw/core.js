@@ -11,7 +11,9 @@ const draw_rectangle = ctx => obj => {
 	ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
 };
 
-const drawObjects = (objects, ctx) => {
+const drawObjects = (objects, canvas) => {
+	const ctx = canvas.getContext('2d');
+	ctx.clearRect(0, 0, canvas.width, canvas.height)
 	//bonus: swap to a filter
 	for(let i=0;i<objects.length;i=i+1) {
 			const type = objects[i].width ? 'rectangle' : 'circle';

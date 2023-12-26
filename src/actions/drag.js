@@ -2,7 +2,7 @@ import { first } from "../utility.js";
 import { drawObjects } from "./draw/core.js";
 
 function isWithinRectangle(cursorX, cursorY, rect) {
-	const [x, y, width, height] = rect;
+	const {x, y, width, height} = rect;
 	return cursorX >= x && 
 				cursorX <= x + width && 
 				cursorY >= y && 
@@ -10,9 +10,12 @@ function isWithinRectangle(cursorX, cursorY, rect) {
 }
 
 function isWithinCircle(cursorX, cursorY, circle) {
-	const [x, y, r] = circle;
-	const distanceSquared = (cursorX - centerX) ** 2 + (cursorY - centerY) ** 2;
-	return distanceSquared <= r ** 2;
+	const {x, y, r} = circle;
+	const distanceSquared = (cursorX - x) ** 2 + (cursorY - x) ** 2;
+	// const x_diff = Math.pow((cursorX - x), 2);
+	// const y_diff = Math.pow((cursorY - y), 2);
+	const rooted_diff = Math.sqrt(distanceSquared);
+	return rooted_diff <= r;
 }
 
 const find_shape = possible_shapes => cursor => {
@@ -41,10 +44,7 @@ const init_grab_shape = state => cursor => {
 
 const move_shape = state => {
 	const canvas = state.canvas;
-	const ctx = canvas.getContext('2d');
-	var context = canvas.getContext("2d");
-	var boundings = canvas.getBoundingClientRect();
-	drawObjects(state.existing_shapes, ctx);
+	drawObjects(state.existing_shapes, canvas);
 };
 
 const init_release_shape = () => "meh";
