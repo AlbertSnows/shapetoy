@@ -6,8 +6,7 @@ const draw_circle = ctx => obj => {
 	ctx.closePath();
 }
 
-const draw_rectangle = ctx => existing_shapes => {
-	const obj = existing_shapes[i];
+const draw_rectangle = ctx => obj => {
 	ctx.fillStyle = obj.data.color;
 	ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
 };
@@ -20,7 +19,7 @@ const drawObjects = (objects, ctx) => {
 	}
 }
 
-const draw = {
+const drawMap = {
 	"circle": draw_circle,
 	"rectangle": draw_rectangle,
 };
