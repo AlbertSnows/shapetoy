@@ -1,11 +1,12 @@
-const polyfillAnimationFrames = () => {
+const polyfill_animation_frames = () => {
+	const default_animation = (callback) => {
+		window.setTimeout(callback, 1000 / 60);
+	};
 	return window.requestAnimationFrame ||
 			window.webkitRequestAnimationFrame ||
 			window.mozRequestAnimationFrame ||
 			window.msRequestAnimationFrame ||
-			(callback) => {
-					window.setTimeout(callback, 1000 / 60);
-			};
+			default_animation;
 };
 
-export { polyfillAnimationFrames };
+export { polyfill_animation_frames };

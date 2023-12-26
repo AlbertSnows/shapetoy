@@ -1,25 +1,28 @@
 import { when } from "../src/utility.js";
 import { generate_circle, generate_rectangle } from "../src/actions/draw.js";
-import { grab_shape } from "../src/actions/drag.js";
-import Quadtree from '@timohausmann/quadtree-ts';
+import { init_grab_shape, init_move_shape, init_release_shape } from "../src/actions/drag.js";
+import { polyfill_animation_frames } from "./init_helpers.js"
+// import Quadtree from '@timohausmann/quadtree-js';
+// import {Quadtree as tqt} from '@timohausmann/quadtree-ts';
+
 const canvas = document.getElementById("canvas");
 let state = {
     holding_shape: false,
     selected_shape: null,
     shape_locations: [],
-    drawn_shapes: new Quadtree({ width: canvas === null || canvas === void 0 ? void 0 : canvas.clientWidth, height: canvas === null || canvas === void 0 ? void 0 : canvas.clientHeight })
+    // drawn_shapes: new Quadtree({ width: canvas === null || canvas === void 0 ? void 0 : canvas.clientWidth, height: canvas === null || canvas === void 0 ? void 0 : canvas.clientHeight })
 };
 const context = canvas.getContext("2d");
 const when_canvas_exists = when(() => canvas.getContext !== null && canvas.getContext !== undefined);
 const when_holding = when(() => state.holding_shape);
 const boundings = canvas.getBoundingClientRect();
-const init_grab_shape = grab_shape(state);
+const grab_shape = init_grab_shape(state);
 // attach generate
 document.getElementById('generate_circle')
     .addEventListener('click', () => when_canvas_exists(() => generate_circle(canvas)));
 document.getElementById('generate_rectangle')
     .addEventListener('click', () => when_canvas_exists(() => generate_rectangle(canvas)));
-window.requestAnimationFrame = polyfillAnimationFrames();
+window.requestAnimationFrame = polyfill_animation_frames();
 // attach movement
 canvas.addEventListener('mousedown', (event) => {
     const mouse_down_x = event.clientX - boundings.left;

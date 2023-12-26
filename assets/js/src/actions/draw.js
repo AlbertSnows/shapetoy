@@ -1,4 +1,4 @@
-import { Rectangle, Circle, Line } from '@timohausmann/quadtree-ts';
+// import { Rectangle, Circle, Line } from '@timohausmann/quadtree-ts';
 const generate_circle = (canvas) => {
 	// Get the canvas element
 	var ctx = canvas.getContext('2d');

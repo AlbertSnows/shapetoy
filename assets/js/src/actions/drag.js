@@ -14,7 +14,7 @@ const init_grab_shape = state => (mx, my) => {
 	return first(shape);
 }
 
-const drag_shape = (canvas) => {
+const init_move_shape = (canvas) => {
     // Definitions
     var context = canvas.getContext("2d");
     var boundings = canvas.getBoundingClientRect();
@@ -28,4 +28,6 @@ const drag_shape = (canvas) => {
 
 };
 
-export { init_grab_shape, moveShape, releaseShape };
+const init_release_shape = () => "meh";
+
+export { init_grab_shape, init_move_shape, init_release_shape };
