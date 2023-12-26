@@ -1,5 +1,5 @@
-import { when } from "./helpers/utility"
-import * from "./helpers/logic"
+import { when } from "./helpers/utility.js";
+import { generateCircle, generateRectangle } from "./helpers/logic.js";
 
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");

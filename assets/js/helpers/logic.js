@@ -23,3 +23,5 @@ const generateCircle = (canvas) => {
 const generateRectangle = (canvas) => {
 	console.log("I don't do a whole lot right now...");
 };
+
+export { generateCircle, generateRectangle };
