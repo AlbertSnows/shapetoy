@@ -8,7 +8,7 @@ let state = {
     holding_shape: false,
     selected_shape: null,
     shape_locations: [],
-    // drawn_shapes: new Quadtree({ width: canvas === null || canvas === void 0 ? void 0 : canvas.clientWidth, height: canvas === null || canvas === void 0 ? void 0 : canvas.clientHeight })
+    drawn_shapes: new Quadtree({ width: canvas === null || canvas === void 0 ? void 0 : canvas.clientWidth, height: canvas === null || canvas === void 0 ? void 0 : canvas.clientHeight })
 };
 const context = canvas.getContext("2d");
 const when_canvas_exists = when(() => canvas.getContext !== null && canvas.getContext !== undefined);
