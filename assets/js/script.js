@@ -1,11 +1,6 @@
 let canvas = document.getElementById('hello-world-canvas')
 let context = canvas.getContext('2d')
+let when_canvas_exists = when(() => canvas.getContext !== null && canvas.getContext !== undefined);
+document.getElementById('generateCircle').addEventListener('click', () => when_canvas_exists(generateCircle));
+document.getElementById('generateRectangle').addEventListener('click', when_canvas_exists(generateRectangle));
 
-
-// Blue reactangle
-context.fillStyle = "blue";
-context.fillRect(10, 40, 30, 70);
-
-// Yellow reactangle
-context.fillStyle = "yellow"
-context.fillRect(50, 30, 60, 60); //Dikdörtgen
