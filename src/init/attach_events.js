@@ -3,6 +3,7 @@ import { generate } from "../actions/draw.js";
 import { init_grab_shape, init_move_shape, init_release_shape } from "../actions/drag.js";
 import { polyfill_animation_frames } from "./init_helpers.js"
 const canvas = document.getElementById("canvas");
+
 let state = {
     holding_shape: false,
     selected_shape: null,
