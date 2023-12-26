@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@timohausmann/quadtree-js": "^1.2.6"
+  }
+}

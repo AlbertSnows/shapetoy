@@ -1,4 +1,4 @@
-const generateCircle = (canvas) => {
+const generate_circle = (canvas) => {
 	// Get the canvas element
 	var ctx = canvas.getContext('2d');
 
@@ -25,7 +25,7 @@ const generateCircle = (canvas) => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const generateRectangle = (canvas) => {
+const generate_rectangle = (canvas) => {
 	const ctx = canvas.getContext('2d');
 	const x = getRandomNumber(0, canvas.width - 50);
 	const y = getRandomNumber(0, canvas.height - 50);
@@ -34,4 +34,4 @@ const generateRectangle = (canvas) => {
 	ctx.fillRect(x, y, 20, 10);
 };
 
-export { generateCircle, generateRectangle };
+export { generate_circle, generate_rectangle };
