@@ -1,10 +1,15 @@
 import { when } from "../utility.js";
-import { generate } from "../actions/draw.js";
+import { generate } from "../actions/draw/handlers.js";
 import { init_grab_shape, init_move_shape, init_release_shape } from "../actions/drag.js";
 import { polyfill_animation_frames } from "./init_helpers.js"
 const canvas = document.getElementById("canvas");
 
 let state = {
+		cursor: new Quadtree.Circle({
+			x: 0, 
+			y: 0, 
+			r: 3
+		}),
     holding_shape: false,
     selected_shape: null,
     existing_shapes: [],
@@ -32,7 +37,9 @@ window.requestAnimationFrame = polyfill_animation_frames();
 canvas.addEventListener('mousedown', (event) => {
     const mouse_down_x = event.clientX - boundings.left;
     const mouse_down_y = event.clientY - boundings.top;
-    shape_data = grab_shape(mouse_down_x, mouse_down_y);
+		state.cursor.x = mouse_down_x;
+		state.cursor.y = mouse_down_y;
+    shape_data = grab_shape(cursor);
     state.selected_shape = shape_data;
     state.holding_shape = shape_data !== null;
 });

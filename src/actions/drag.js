@@ -8,9 +8,9 @@ function drawBalls() {
 	}
 }
 
-const init_grab_shape = state => (mx, my) => {
-	const quadtree = state.drawn_shapes;
-	const shape = quadtree.retrieve({x: mx, y: my, width: 1, height: 1 });
+const init_grab_shape = state => cursor => {
+	const quadtree = state.shape_locations;
+	const shape = quadtree.retrieve(cursor);
 	return first(shape);
 }
 

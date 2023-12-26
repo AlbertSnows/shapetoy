@@ -1,4 +1,5 @@
-// import { Rectangle, Circle, Line } from '@timohausmann/quadtree-ts';
+import { drawObjects } from "./core";
+
 const generate_circle = (state) => {
 	var ctx = state.canvas.getContext('2d');
 	var x = Math.floor(Math.random() * canvas.width);
@@ -16,7 +17,7 @@ const generate_circle = (state) => {
 	
 	state.existing_shapes.push(circle);
 	state.shape_locations.insert(circle);	
-	draw_circle(ctx)(state.existing_shapes);
+	drawObjects(state.existing_shapes, ctx);
 };
 
  // Function to generate a random number within a range
@@ -40,35 +41,12 @@ const generate_rectangle = (state) => {
 });
 state.existing_shapes.push(rect);
 state.shape_locations.insert(rect);
-draw_rectangle(ctx)(state.existing_shapes);
-};
-
-const draw_circle = ctx => existing_shapes => {
-	for(let i=0;i<existing_shapes.length;i=i+1) {
-		const obj = existing_shapes[i];
-		ctx.beginPath();
-		ctx.arc(obj.x, obj.y, obj.r, 0, Math.PI * 2);
-		ctx.fillStyle = obj.data.color;
-		ctx.fill();
-		ctx.closePath();
-	}
-}
-
-const draw_rectangle = ctx => existing_shapes => {
-    // Clear the canvas
-    ctx.clearRect(0, 0, 640, 480);
-    
-    // Draw the objects
-    for(let i=0;i<existing_shapes.length;i=i+1) {
-        const obj = existing_shapes[i];
-        ctx.fillStyle = obj.data.color;
-        ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
-    }
+drawObjects(state.existing_shapes, ctx);
 };
 
 const generate = {
-	"circle": generate_circle,
-	"rectangle": generate_rectangle,
+	"circle": draw_circle,
+	"rectangle": draw_rectangle,
 };
 
 export { generate };
