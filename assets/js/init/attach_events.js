@@ -8,6 +8,7 @@ const canvas = document.getElementById("canvas");
 let state = { 
 	holding_shape: false, 
 	selected_shape: null,
+	shape_locations: [],
   drawn_shapes: new Quadtree({width: canvas?.clientWidth, height: canvas?.clientHeight }) };
 
 const context = canvas.getContext("2d");
@@ -21,12 +22,13 @@ document.getElementById('generate_circle')
 document.getElementById('generate_rectangle')
 	.addEventListener('click', () => when_canvas_exists(() => generate_rectangle(canvas)));
 window.requestAnimationFrame = polyfillAnimationFrames();
-	
 // attach movement
 canvas.addEventListener('mousedown', (event) => {
-	var mouseDownX = event.clientX - boundings.left;
-	var mouseDownY = event.clientY - boundings.top;
-	state = grab_shape(mouseDownX, mouseDownY);
+	const mouse_down_x = event.clientX - boundings.left;
+	const mouse_down_y = event.clientY - boundings.top;
+	shape_data = grab_shape(mouse_down_x, mouse_down_y);
+	state.selected_shape = shape_data;
+	state.holding_shape = shape_data !== null;
 });
 
 const dragShape = (event) => {

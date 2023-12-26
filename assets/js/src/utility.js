@@ -3,5 +3,5 @@ const when = pred => action => {
 		action();
 	}
 };
-
-export { when };
+const first = list => list[0] ?? null;
+export { when, first };

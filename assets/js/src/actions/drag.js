@@ -12,12 +12,6 @@ const init_grab_shape = state => (mx, my) => {
 	const quadtree = state.drawn_shapes;
 	const shape = quadtree.retrieve({x: mx, y: my, width: 1, height: 1 });
 	return first(shape);
-	for (let index = balls - 1; index >= 0; index--) {
-			if (Math.sqrt(Math.pow((mx - ballsArr[index].x), 2) + Math.pow((my - ballsArr[index].y), 2)) < ballsArr[index].r) {
-					currentBall = ballsArr[index];
-					break;
-			}
-	}
 }
 
 const drag_shape = (canvas) => {
