@@ -45,8 +45,8 @@ drawObjects(state.existing_shapes, ctx);
 };
 
 const generate = {
-	"circle": draw_circle,
-	"rectangle": draw_rectangle,
+	"circle": generate_circle,
+	"rectangle": generate_rectangle,
 };
 
 export { generate };

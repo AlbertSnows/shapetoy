@@ -37,3 +37,4 @@ const draw = {
 // 	ctx.fill();
 // });
 
+export { drawObjects };
