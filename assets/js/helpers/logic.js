@@ -1,6 +1,5 @@
-const generateCircle = () => {
+const generateCircle = (canvas) => {
 	// Get the canvas element
-	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 
 	// Generate a random position for the circle
@@ -21,6 +20,6 @@ const generateCircle = () => {
 	ctx.closePath();
 };
 
-const generateRectangle = () => {
+const generateRectangle = (canvas) => {
 	console.log("I don't do a whole lot right now...");
 };
