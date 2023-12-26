@@ -1,8 +1,8 @@
-import { when } from "../src/utility.js";
-import { generate_circle, generate_rectangle } from "../src/actions/draw.js";
-import { init_grab_shape, init_move_shape, init_release_shape } from "../src/actions/drag.js";
-import { polyfill_animation_frames } from "./init_helpers.js"
-// import Quadtree from '@timohausmann/quadtree-js';
+// import { when } from "../src/utility.js";
+// import { generate_circle, generate_rectangle } from "../src/actions/draw.js";
+// import { init_grab_shape, init_move_shape, init_release_shape } from "../src/actions/drag.js";
+// import { polyfill_animation_frames } from "./init_helpers.js"
+import Quadtree from '@timohausmann/quadtree-js';
 // import {Quadtree as tqt} from '@timohausmann/quadtree-ts';
 
 // const canvas = document.getElementById("canvas");
