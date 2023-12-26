@@ -20,8 +20,18 @@ const generateCircle = (canvas) => {
 	ctx.closePath();
 };
 
+ // Function to generate a random number within a range
+ const getRandomNumber = (min, max) => {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 const generateRectangle = (canvas) => {
-	console.log("I don't do a whole lot right now...");
+	const ctx = canvas.getContext('2d');
+	const x = getRandomNumber(0, canvas.width - 50);
+	const y = getRandomNumber(0, canvas.height - 50);
+	// Draw a rectangle
+	ctx.fillStyle = 'blue'; // Set the fill color
+	ctx.fillRect(x, y, 20, 10);
 };
 
 export { generateCircle, generateRectangle };

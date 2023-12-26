@@ -7,5 +7,5 @@ const when_canvas_exists = when(() => canvas.getContext !== null && canvas.getCo
 document.getElementById('generateCircle')
 	.addEventListener('click', () => when_canvas_exists(() => generateCircle(canvas)));
 document.getElementById('generateRectangle')
-	.addEventListener('click', when_canvas_exists(() => generateRectangle(canvas)));
+	.addEventListener('click', () => when_canvas_exists(() => generateRectangle(canvas)));
 
