@@ -1,4 +1,4 @@
-import { drawObjects } from "./core";
+import { drawObjects } from "./core.js";
 
 const generate_circle = (state) => {
 	var ctx = state.canvas.getContext('2d');

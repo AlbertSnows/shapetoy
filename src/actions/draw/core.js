@@ -12,8 +12,6 @@ const draw_rectangle = ctx => existing_shapes => {
 	ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
 };
 
-
-
 const drawObjects = (objects, ctx) => {
 	//bonus: swap to a filter
 	for(let i=0;i<objects.length;i=i+1) {
