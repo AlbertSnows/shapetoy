@@ -7,4 +7,5 @@ const when = pred => action => {
 };
 const first = list => list[0] ?? null;
 const last = list => list[list.length - 1] ?? null;
-export { when, first, last };
+const filter_map = pred => map => new Map([...map].filter(pred));
+export { when, first, last, filter_map };

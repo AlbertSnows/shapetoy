@@ -1,3 +1,5 @@
+import { filter_map } from "../utility/core.js";
+
 const make_range = (value, class_id) => {
     // Create a range input for width
     const range = document.createElement('input');
@@ -87,14 +89,15 @@ const update_property_display = (document, state) => {
 	const existing_property_boxes = Array.from(document.querySelectorAll(".shape-property-box"));
 	const existing_length = existing_property_boxes.length;
 	const selected_length = selected_shapes.size;
-	const ids = new Set(Array.from(existing_property_boxes).map(element => element.id));
+	const ids = new Set(Array.from(existing_property_boxes)
+		.map(element => element.id));
 	const should_add_properties = selected_length > existing_length;
 	const should_remove_properties = selected_length < existing_length;
 	const only_one = selected_shapes.size === 1;
 	if(only_one) {
 		update_property(state)(selected_shapes);
 	} else if(should_add_properties) {
-		const shapes_to_add = selected_shapes.filter((k, v) => !ids.has(k))
+		const shapes_to_add = filter_map((p, i) => !ids.has(p[0]))(selected_shapes);
 		add_properties(state)(shapes_to_add);
 	} else if(should_remove_properties) {
 		const boxes_to_remove = existing_property_boxes
