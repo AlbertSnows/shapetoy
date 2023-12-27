@@ -1,3 +1,4 @@
-const highlight_shape = state => {
-
+const highlight_shape = closest_shape => {
 };
+
+export { highlight_shape };

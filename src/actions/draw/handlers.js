@@ -11,7 +11,8 @@ const generate_circle = (state) => {
 		y: y, 
 		r: radius,
 		data: {
-			color: color
+			color: color,
+			created: (new Date().getTime())
 		}
 	});
 	
@@ -36,7 +37,8 @@ const generate_rectangle = (state) => {
 		width: Math.floor(Math.random() * (50 - 10 + 1)) + 10,
 		height: Math.floor(Math.random() * (50 - 10 + 1)) + 10,
 		data: {
-				color: color
+				color: color,
+				created: (new Date().getTime())
 		},
 });
 state.existing_shapes.push(rect);

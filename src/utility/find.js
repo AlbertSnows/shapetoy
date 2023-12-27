@@ -1,3 +1,5 @@
+import { last } from "../utility/core.js"
+
 const hovering_rectangle = (cursorX, cursorY, rect) => {
 	const {x, y, width, height} = rect;
 	return cursorX >= x && 
@@ -13,7 +15,7 @@ const hovering_circle = (cursorX, cursorY, circle) => {
 	return rooted_diff <= r;
 };
 
-const find_shape = possible_shapes => cursor => {
+const find_nearby_shapes = possible_shapes => cursor => {
 	const p_rectangles = possible_shapes.filter(s => 'width' in s);
 	const over_retangles = possible_shapes.filter(r => hovering_rectangle(
 		cursor.x,
@@ -24,9 +26,20 @@ const find_shape = possible_shapes => cursor => {
 		cursor.x,
 		cursor.y,
 		c));
-	if(over_retangles.length !== 0) {
-		return first(over_retangles);
-	} else {
-		return first(over_circles) ?? null;
-	}
+		return {
+			"circles": over_circles,
+			"rectangles": over_retangles
+		}
 };
+
+const find_closest_shape = nearby_shapes => {
+	const latest_rect = last(hovered_shapes["rectangles"]);
+	const latest_circle = last(hovered_shapes["circle"]);
+	const circle_is_recent = 
+		latest_circle.data.created > latest_rect.data.created;
+	if(circle_is_recent) {
+		return latest_circle;
+	} else {
+		return latest_rect;
+	}
+}

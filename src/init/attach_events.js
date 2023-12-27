@@ -51,7 +51,6 @@ const update_cursor = cursor => {
 	const boundings = canvas.getBoundingClientRect();
   const mouse_down_x = event.clientX - boundings.left;
 	const mouse_down_y = event.clientY - boundings.top;
-	const cursor = state.cursor;
 	cursor.x = mouse_down_x;
 	cursor.y = mouse_down_y;
 	return cursor;
@@ -63,7 +62,8 @@ const listen_for_shape_drag = (event) => {
 };
 const listen_for_shape_highlight = event => {
 	state.cursor = update_cursor(state.cursor);
-	highlight_shape(state);
+	const hovered_shapes = grab_shape(cursor);
+	highlight_shape(hovered_shapes);
 };
 canvas.addEventListener('mousemove', (event) => {
 	when_holding(() => listen_for_shape_drag(event));

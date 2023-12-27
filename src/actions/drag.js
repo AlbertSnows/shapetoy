@@ -4,7 +4,7 @@ import { drawObjects } from "./draw/core.js";
 const init_grab_shape = state => cursor => {
 	const quadtree = state.shape_locations;
 	const possible_shapes = quadtree.retrieve(cursor);
-	return find_shape(possible_shapes)(cursor);
+	return find_nearby_shapes(possible_shapes)(cursor);
 }
 
 const move_shape = state => {

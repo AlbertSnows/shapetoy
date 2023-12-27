@@ -6,4 +6,5 @@ const when = pred => action => {
 	return acted;
 };
 const first = list => list[0] ?? null;
-export { when, first };
+const last = list => list[list.length - 1] ?? null;
+export { when, first, last };
