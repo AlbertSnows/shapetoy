@@ -23,9 +23,10 @@ const make_div = (id) => {
 };
 const make_number = (value, class_id) => {
 	const number = document.createElement('input');
-	range.setAttribute('type', 'number');
-	range.setAttribute('value', value);
-	range.setAttribute('class', class_id);	
+	number.setAttribute('type', 'number');
+	number.setAttribute('value', value);
+	number.setAttribute('class', class_id);	
+	return number;
 };
 const generate_rectangle = (shape) => {
 	const width = make_range(shape.width, 'width-input');
@@ -63,7 +64,7 @@ const handle_property_box_input_change = (e) => {
 	const id = parent_box.id;
 	//todo: handle any input box change
 };
-const add_to_page = state => (k, v) => {
+const add_to_page = state => (v, k) => {
 	const type = v.width ? "rectangle" : "circle";
 	const box = property_generator[type](v)
 	box.addEventListener('input', handle_property_box_input_change);
@@ -72,7 +73,7 @@ const add_to_page = state => (k, v) => {
 };
 const update_property = state => (selected_shape) => {
 	const element_to_remove = document.querySelectorAll(".shape-property-box");
-	elementsToRemove.forEach(element => element.parentNode.removeChild(element));
+	element_to_remove.forEach(element => element.parentNode.removeChild(element));
 	selected_shape.forEach(add_to_page(state));
 };
 const add_properties = state => shapes_to_add => {
