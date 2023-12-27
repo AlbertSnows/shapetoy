@@ -3,7 +3,7 @@ import { generate } from "../actions/draw/handlers.js";
 import { move_shape } from "../actions/drag.js";
 import { polyfill_animation_frames } from "./init_helpers.js";
 import { highlight_shape } from "../actions/highlight.js";
-import { grab_shape_from_quad_tree } from "../utility/find.js";
+import { find_closest_shape } from "../utility/find.js";
 import { unhighlight_shape } from "../actions/highlight.js";
 import { update_property_display } from "../actions/gui.js";
 const canvas = document.getElementById("canvas");
@@ -41,7 +41,7 @@ const listen_for_shape_drag = (event) => {
 };
 const listen_for_shape_highlight = event => {
 	state.cursor = update_cursor(state.cursor);
-	const closest_shape = grab_shape_from_quad_tree(state);
+	const closest_shape = find_closest_shape(state);
 	const hovering = closest_shape !== null;
 	const was_hovering = state.hovered_shape === null;
 	const same_shape = state.hovered_shape == closest_shape;
@@ -73,7 +73,7 @@ canvas.addEventListener('mousedown', (event) => {
     const mouse_down_y = event.clientY - boundings.top;
 		state.cursor.x = mouse_down_x;
 		state.cursor.y = mouse_down_y;
-    const shape_data = grab_shape_from_quad_tree(state);
+    const shape_data = find_closest_shape(state);
     state.selected_shape = shape_data;
     state.holding_shape = shape_data !== null;
 });
@@ -91,7 +91,7 @@ canvas.addEventListener('mouseup', (event) => {
 });
 canvas.addEventListener('click', (event) => {
 	const shift_click = event.shiftKey;
-	const closest_shape = grab_shape_from_quad_tree(state);
+	const closest_shape = find_closest_shape(state);
 	const shape_selected = closest_shape !== null;
 	const add_shape = !state.selected_shapes.has(closest_shape);
 	const remove_all_shapes = !shift_click && shape_selected && !add_shape;
