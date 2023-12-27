@@ -1,2 +1,6 @@
-const CIRCLE = CIRCLE;
-const RECTANGLE = RECTANGLE;
+const CIRCLE = "circle";
+const RECTANGLE = "rectangle";
+
+export {
+	CIRCLE, RECTANGLE
+};

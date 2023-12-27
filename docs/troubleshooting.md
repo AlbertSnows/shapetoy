@@ -17,3 +17,11 @@ should serve the file via express
 ## disallowed mime type
 
 make sure when you import a JS file it ends in '.js'
+
+## defining objects with constant keys
+
+const X = "x";
+const obj = {
+	X: "foo", // this works
+	[X]: "bar" // this doesnt
+};

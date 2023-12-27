@@ -1,8 +1,9 @@
-const generate_and_draw = state => action => {
-	draw_existing_shapes(state.canvas)(style)(state.existing_shapes);
+import { generate_commands } from "../define/core.js";
+import { draw_existing_shapes } from "./core.js";
+const add_shape = state => type => {
+	state = generate_commands["generate"](state)(type);
+	draw_existing_shapes(state.canvas)("fill")(state.existing_shapes);
+	return state;
 };
 
-const draw_actions = {
-	"highlight": "regen + highlight...",
-	"unhighlight": "..."
-};
+export { add_shape };

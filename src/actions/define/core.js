@@ -1,5 +1,5 @@
 import {v4 as uuidv4 } from 'https://cdn.jsdelivr.net/npm/uuid@9.0.1/+esm';
-
+import { CIRCLE, RECTANGLE } from '../../utility/constants.js';
 const generate_circle = (ctx) => {
 	var x = Math.floor(Math.random() * (canvas.width-60));
 	var y = Math.floor(Math.random() * (canvas.height-30));
@@ -35,8 +35,8 @@ const generate_rectangle = (ctx) => {
 };
 
 const generate_types = {
-	CIRCLE: generate_circle,
-	RECTANGLE: generate_rectangle,
+	[CIRCLE]: generate_circle,
+	[RECTANGLE]: generate_rectangle,
 };
 
 const generate_shape = state => type => {
@@ -52,8 +52,7 @@ const remove_shape = state => {
 	state.existing_shapes.delete(shape.data.id);
 	return state;
 };
-const regenerate_shape = 
-	state => type => shape => generate_shape(remove_shape(state, shape), type);
+const regenerate_shape = state => type => shape => generate_shape(remove_shape(state, shape), type);
 
 
 

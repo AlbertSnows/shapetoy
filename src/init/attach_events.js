@@ -1,11 +1,10 @@
 import { when } from "../utility/core.js";
-import { generate } from "../actions/define/core.js";
 import { move_shape } from "../actions/drag.js";
 import { polyfill_animation_frames } from "./init_helpers.js";
-import { highlight_shape } from "../actions/highlight.js";
 import { find_closest_shape } from "../utility/find.js";
-import { unhighlight_shape } from "../actions/highlight.js";
 import { update_property_display } from "../actions/gui.js";
+import { add_shape } from "../actions/draw/handlers.js";
+import { CIRCLE, RECTANGLE } from "../utility/constants.js";
 const canvas = document.getElementById("canvas");
 let state = {
 		cursor: new Quadtree.Circle({
@@ -59,11 +58,11 @@ const listen_for_shape_highlight = event => {
 // attach generate
 document.getElementById('generate_circle')
     .addEventListener('click', () => when_canvas_exists(() => {
-			generate[CIRCLE](state);
+			state = add_shape(state)(CIRCLE);
 		}));
 document.getElementById('generate_rectangle')
     .addEventListener('click', () => when_canvas_exists(() => {
-			generate[RECTANGLE](state)
+			state = add_shape(state)(RECTANGLE)
 		}));
 window.requestAnimationFrame = polyfill_animation_frames();
 // attach movement

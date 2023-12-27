@@ -1,5 +1,3 @@
-import { highlight_shape } from "../highlight";
-
 const fill_circle = ctx => obj => {
 	ctx.beginPath();
 	ctx.arc(obj.x, obj.y, obj.r, 0, Math.PI * 2);
@@ -39,9 +37,9 @@ const highlight_map = {
 	RECTANGLE: (s) => { highlight_rectangle(s); fill_circle(s); },
 };
 
-const style_types => {
-	"highlight" =>  highlight_map,
-	"fill" => fill_map
+const style_types = {
+	"highlight":  highlight_map,
+	"fill": fill_map
 };
 
 const draw_existing_shape = canvas => style => existing_shape => {
