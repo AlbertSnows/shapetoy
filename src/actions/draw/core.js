@@ -11,14 +11,13 @@ const draw_rectangle = ctx => obj => {
 	ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
 };
 
-const drawObjects = (objects, canvas) => {
+const draw_existing_shapes = (existing_shapes, canvas) => {
 	const ctx = canvas.getContext('2d');
 	ctx.clearRect(0, 0, canvas.width, canvas.height)
-	//bonus: swap to a filter
-	for(let i=0;i<objects.length;i=i+1) {
-			const type = objects[i].width ? 'rectangle' : 'circle';
-			drawMap[type](ctx)(objects[i]);
-	}
+	existing_shapes.forEach((v, k) => {
+		const type = v.width ? 'rectangle' : 'circle';
+		drawMap[type](ctx)(v);	
+	});
 }
 
 const drawMap = {
@@ -38,4 +37,4 @@ const drawMap = {
 // 	ctx.fill();
 // });
 
-export { drawObjects };
+export { draw_existing_shapes };

@@ -1,5 +1,5 @@
-import { drawObjects } from "./core.js";
-// import { v4 } from uuid;
+import { draw_existing_shapes } from "./core.js";
+import {v4 as uuidv4 } from 'https://cdn.jsdelivr.net/npm/uuid@9.0.1/+esm';
 
 const generate_circle = (state) => {
 	var ctx = state.canvas.getContext('2d');
@@ -18,9 +18,9 @@ const generate_circle = (state) => {
 		}
 	});
 	
-	state.existing_shapes.push(circle);
+	state.existing_shapes.set(circle.data.id, circle);
 	state.shape_locations.insert(circle);	
-	drawObjects(state.existing_shapes, canvas);
+	draw_existing_shapes(state.existing_shapes, canvas);
 };
 
  // Function to generate a random number within a range
@@ -44,9 +44,9 @@ const generate_rectangle = (state) => {
 				id: uuidv4()
 		},
 });
-state.existing_shapes.push(rect);
+state.existing_shapes.set(rect.data.id, rect);
 state.shape_locations.insert(rect);
-drawObjects(state.existing_shapes, canvas);
+draw_existing_shapes(state.existing_shapes, canvas);
 };
 
 const generate = {
