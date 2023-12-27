@@ -45,10 +45,10 @@ const find_nearby_shapes = possible_shapes => cursor => {
 		.filter(r => hovering_rectangle(cursor, r));
 	const p_circles = possible_shapes.filter(s => 'r' in s);
 	const over_circles = possible_shapes.filter(c => hovering_circle(cursor, c));
-		return {
-			"circles": over_circles,
-			"rectangles": over_retangles
-		}
+	return {
+		"circles": over_circles,
+		"rectangles": over_retangles
+	}
 };
 
 // bonus: clean up branches

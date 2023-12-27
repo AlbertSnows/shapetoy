@@ -3,9 +3,9 @@ import {v4 as uuidv4 } from 'https://cdn.jsdelivr.net/npm/uuid@9.0.1/+esm';
 
 const generate_circle = (state) => {
 	var ctx = state.canvas.getContext('2d');
-	var x = Math.floor(Math.random() * canvas.width);
-	var y = Math.floor(Math.random() * canvas.height);
-	var radius = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+	var x = Math.floor(Math.random() * (canvas.width-60));
+	var y = Math.floor(Math.random() * (canvas.height-30));
+	var radius = Math.floor(1 * (50)) + 10;
 	var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 	const circle = new Quadtree.Circle({ 
 		x: x, 
@@ -34,10 +34,10 @@ const generate_rectangle = (state) => {
 	var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
 	const rect = new Quadtree.Rectangle({
-		x: Math.random() * canvas.width,
-		y: Math.random() * canvas.height,
-		width: Math.floor(Math.random() * (50 - 10 + 1)) + 10,
-		height: Math.floor(Math.random() * (50 - 10 + 1)) + 10,
+		x: Math.random() * (canvas.width-60),
+		y: Math.random() * (canvas.height-30),
+		width: Math.floor(1 * 50) + 10,
+		height: Math.floor(1 * 50) + 10,
 		data: {
 				color: color,
 				created: (new Date().getTime()),
