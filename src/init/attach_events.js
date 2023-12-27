@@ -12,7 +12,7 @@ let state = {
 		}),
     holding_shape: false,
 		hovered_shape: null,
-    selected_shape: null,
+    selected_shapes: new Map(),
     existing_shapes: new Map(),
 		canvas: canvas,
     shape_locations: new Quadtree({ 
@@ -25,6 +25,37 @@ const when_holding = when(() => state.holding_shape);
 const when_not_holding = when(() => !state.holding_shape);
 const boundings = canvas.getBoundingClientRect();
 const grab_shape = init_grab_shape(state);
+
+const update_cursor = cursor => {
+	const boundings = canvas.getBoundingClientRect();
+  const mouse_down_x = event.clientX - boundings.left;
+	const mouse_down_y = event.clientY - boundings.top;
+	cursor.x = mouse_down_x;
+	cursor.y = mouse_down_y;
+	return cursor;
+};
+
+const listen_for_shape_drag = (event) => {
+	state.cursor = update_cursor(state.cursor);
+	move_shape(state);
+};
+const listen_for_shape_highlight = event => {
+	state.cursor = update_cursor(state.cursor);
+	const closest_shape = grab_shape_from_quad_tree(state);
+	const hovering = closest_shape !== null;
+	const was_hovering = state.hovered_shape === null;
+	const same_shape = state.hovered_shape == closest_shape;
+
+	if(!hovering && was_hovering) {
+		state = unhighlight_shape();
+	} else if(hovering && !was_hovering) {
+		state = highlight_shape(closest_shape);
+	} else if(hovering && was_hovering && !same_shape) {
+		state = unhighlight_shape();
+		state = highlight_shape(closest_shape);
+	} // else not highlighting anything or highlighting same object
+
+};
 // attach generate
 document.getElementById('generate_circle')
     .addEventListener('click', () => when_canvas_exists(() => {
@@ -47,36 +78,6 @@ canvas.addEventListener('mousedown', (event) => {
     state.holding_shape = shape_data !== null;
 });
 
-const update_cursor = cursor => {
-	const boundings = canvas.getBoundingClientRect();
-  const mouse_down_x = event.clientX - boundings.left;
-	const mouse_down_y = event.clientY - boundings.top;
-	cursor.x = mouse_down_x;
-	cursor.y = mouse_down_y;
-	return cursor;
-};
-
-const listen_for_shape_drag = (event) => {
-	state.cursor = update_cursor(state.cursor);
-	move_shape(state);
-};
-const listen_for_shape_highlight = event => {
-	state.cursor = update_cursor(state.cursor);
-	const closest_shape = grab_shape_from_quad_tree(state);
-	const not_hovering_over_same_shape = state.hovered_shape !== null && state.hovered_shape !== closest_shape;
-	if(not_hovering_over_same_shape) {
-		const unhighlight_shape = unhighlight_shape(closest_shape);
-		state = update_shape(state, closest_shape, unhighlight_shape);
-	}
-	const highlighted_closest_shape = highlight_shape(closest_shape);
-	state = draw_shape(state, highlighted_closest_shape);
-	state.hovered_shape = highlighted_closest_shape;
-	// c or r
-	// remove from array and tree
-	// create new shape from obj
-	// add to array and tree from created one
-	// mark highlighted
-};
 canvas.addEventListener('mousemove', (event) => {
 	when_holding(() => listen_for_shape_drag(event));
 	when_not_holding(() => listen_for_shape_highlight(event))
@@ -84,4 +85,21 @@ canvas.addEventListener('mousemove', (event) => {
 canvas.addEventListener('mouseup', (event) => {
     state.selected_shape = null;
     state.holding_shape = false;
+});
+canvas.addEventListener('click', (event) => {
+	const shift_click = event.shiftKey;
+	const closest_shape = grab_shape_from_quad_tree(state);
+	const shape_selected = closest_shape !== null;
+	const add_shape = !state.selected_shapes.has(closest_shape);
+	const remove_all_shapes = !shift_click && shape_selected && !add_shape;
+	if(!shape_selected || remove_all_shapes) {
+		state.selected_shapes = new Map();
+	} else if(!shift_click && add_shape) {
+		state.selected_shapes = new Map(closest_shape.data.id, closest_shape);
+	} else if(shift_click && !add_shape) {
+		state.selected_shapes.remove(closest_shape.data.id);
+	} else if(shift_click && add_shape) {
+		state.selected_shapes.put(closest_shape.data.id, closest_shape);
+	} // if no shapes selected and remove shape, do nothing
+	reset_property_display();
 });
