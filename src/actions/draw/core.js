@@ -1,3 +1,4 @@
+import { CIRCLE, RECTANGLE } from "../../utility/constants.js";
 const fill_circle = ctx => obj => {
 	ctx.beginPath();
 	ctx.arc(obj.x, obj.y, obj.r, 0, Math.PI * 2);
@@ -12,8 +13,8 @@ const fill_rectangle = ctx => obj => {
 };
 
 const fill_map = {
-	CIRCLE: fill_circle,
-	RECTANGLE: fill_rectangle,
+	[CIRCLE]: fill_circle,
+	[RECTANGLE]: fill_rectangle,
 };
 
 
@@ -33,8 +34,8 @@ const highlight_rectangle = rect => {
 };
 
 const highlight_map = {
-	CIRCLE: (s) => { highlight_circle(s); fill_circle(s); },
-	RECTANGLE: (s) => { highlight_rectangle(s); fill_circle(s); },
+	[CIRCLE]: (s) => { highlight_circle(s); fill_circle(s); },
+	[RECTANGLE]: (s) => { highlight_rectangle(s); fill_circle(s); },
 };
 
 const style_types = {
@@ -42,16 +43,16 @@ const style_types = {
 	"fill": fill_map
 };
 
-const draw_existing_shape = canvas => style => existing_shape => {
+const draw_existing_shape = canvas => style => shape => {
 	const ctx = canvas.getContext('2d');
 	ctx.clearRect(0, 0, canvas.width, canvas.height)
-	const type = v.width ? 'rectangle' : 'circle';
-	style_types[style][type](ctx)(existing_shape);	
+	const type = shape.width ? 'rectangle' : 'circle';
+	style_types[style][type](ctx)(shape);	
 };
 
 const draw_existing_shapes = canvas => style => existing_shapes => {
-	const draw_shape = draw_existing_shape(canvas, style);
-	existing_shapes.forEach((v, k) => draw_existing_shape(v));
+	const draw_shape = draw_existing_shape(canvas)(style);
+	existing_shapes.forEach((v, k) => draw_shape(v));
 };
 
 export { draw_existing_shapes };
