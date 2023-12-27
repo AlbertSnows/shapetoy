@@ -18,8 +18,6 @@ const generate_circle = (ctx) => {
 	return circle;
 };
 
-
-
 const generate_rectangle = (ctx) => {
 	var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 	const rect = new Quadtree.Rectangle({
@@ -41,7 +39,7 @@ const generate_types = {
 	RECTANGLE: generate_rectangle,
 };
 
-const generate = state => {
+const generate_shape = state => type => {
 	const canvas = state.canvas;
 	const ctx = canvas.getContext('2d');
 	const shape = generate_types[type](ctx);
@@ -49,32 +47,19 @@ const generate = state => {
 	state.shape_locations.insert(shape);	
 	return state;
 };
-const regenerate = state => shape => {
-	const canvas = state.canvas;
-	const ctx = canvas.getContext('2d');
+const remove_shape = state => {
 	state.shape_locations.remove(shape);
 	state.existing_shapes.delete(shape.data.id);
-	const regenerated_shape = generate_types[type](ctx);
-	state.existing_shapes.set(regenerated_shape.data.id, regenerated_shape);
-	state.shape_locations.insert(regenerated_shape);	
 	return state;
-
 };
+const regenerate_shape = 
+	state => type => shape => generate_shape(remove_shape(state, shape), type);
 
-const generate_highlighted_shape = state => shape => {
 
-};
-
-const generate_unhighlighted_shape = state => shape => {
-
-};
 
 const generate_commands = {
+	"generate": generate_shape,
+	"regenerate": regenerate_shape
 };
 
-const regenerate_commands = state => {
-	"highlight" => generate_highlighted_shape(state),
-	"unhighlight" => generate_unhighlighted_shape(state),
-};
-
-export { generate_types as generate, generate_commands };
+export { generate_commands };

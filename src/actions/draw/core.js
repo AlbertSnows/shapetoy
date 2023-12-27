@@ -19,50 +19,41 @@ const fill_map = {
 };
 
 
-const highlight_circle = () => {
+const highlight_circle = circle => {
+	const { x, y, r } = circle;
 	ctx.beginPath();
-	ctx.arc(x, y, radius + 2, 0, Math.PI * 2);
-	ctx.strokeStyle = color;
+	ctx.arc(x, y, r + 2, 0, Math.PI * 2);
+	ctx.strokeStyle = 'blue';
 	ctx.lineWidth = 3;
 	ctx.stroke();
 };
-const highlight_rectangle = () => {
-	ctx.beginPath();
-	ctx.arc(x, y, radius + 2, 0, Math.PI * 2);
-	ctx.strokeStyle = color;
+const highlight_rectangle = rect => {
+	const { x, y, width, height } = rect;
+	ctx.strokeStyle = 'blue';
 	ctx.lineWidth = 3;
-	ctx.stroke();
-};
-const draw_unhighlighted_shape = () => {
-
+	ctx.strokeRect(x - 2, y - 2, width + 4, height + 4);
 };
 
 const highlight_map = {
-	CIRCLE: highlight_circle,
-	RECTANGLE: highlight_rectangle,
+	CIRCLE: (s) => { highlight_circle(s); fill_circle(s); },
+	RECTANGLE: (s) => { highlight_rectangle(s); fill_circle(s); },
 };
 
+const style_types => {
+	"highlight" =>  highlight_map,
+	"fill" => fill_map
+};
 
-const draw_existing_shapes = (existing_shapes, canvas) => {
+const draw_existing_shape = canvas => style => existing_shape => {
 	const ctx = canvas.getContext('2d');
 	ctx.clearRect(0, 0, canvas.width, canvas.height)
-	existing_shapes.forEach((v, k) => {
-		const type = v.width ? 'rectangle' : 'circle';
-		drawMap[type](ctx)(v);	
-	});
+	const type = v.width ? 'rectangle' : 'circle';
+	style_types[style][type](ctx)(existing_shape);	
 };
 
-// const drawMap = new Map();
-// drawMap.set('Rectangle', function(ctx, obj) {
-// 	ctx.fillStyle = obj.data.check ? colorChecked : colorWhite;
-// 	ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
-// });
-// drawMap.set('Circle', function(ctx, obj) {
-// 	ctx.fillStyle = obj.data.check ? colorChecked : colorWhite;
-// 	ctx.beginPath();
-// 	ctx.arc(obj.x, obj.y, obj.r, 0, 2 * Math.PI);
-// 	ctx.closePath();
-// 	ctx.fill();
-// });
+const draw_existing_shapes = canvas => style => existing_shapes => {
+	const draw_shape = draw_existing_shape(canvas, style);
+	existing_shapes.forEach((v, k) => draw_existing_shape(v));
+};
 
 export { draw_existing_shapes };
