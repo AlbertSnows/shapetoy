@@ -1,20 +1,42 @@
-import { last } from "../utility/core.js"
+import { last } from "../utility/core.js";
 
+const constrain = (value_to_constrain, min, max) => {
+	const value_or_max = Math.min(value_to_constrain, max);
+	const value_or_min_or_max = Math.max(value_or_max, min);
+	return value_or_min_or_max;
+};
 const hovering_rectangle = (cursor, rect) => {
-	const {rect_x, rect_y, width, height} = rect;
-	const {point_x, point_y} = cursor;
-	return point_x >= rect_x && 
-				point_x <= rect_x + width && 
-				point_y >= rect_y && 
-				point_y <= rect_y + height;
+	// Find the closest point on the rectangle to the circle
+	let closest_to_cursor_x = constrain(cursor.x, rect.y, rect.x + rect.width);
+	let closest_to_cursor_y = constrain(cursor.y, rect.y, rect.y + rect.height);
+
+	// Calculate distance between the circle's center and the closest point
+	let distance_from_circle_x_to_closest_x = cursor.x - closest_to_cursor_x;
+	let distance_from_circle_y_to_closest_y = cursor.y - closest_to_cursor_y;
+	let distance_squared = (distance_from_circle_x_to_closest_x ** 2) + (distance_from_circle_y_to_closest_y ** 2);
+
+	// Check if the closest point is within the circle or on its circumference
+	return distance_squared <= (cursor.r ** 2);
+
+	// const {rect_x, rect_y, width, height} = rect;
+	// const {point_x, point_y} = cursor;
+	// return point_x >= rect_x && 
+	// 			point_x <= rect_x + width && 
+	// 			point_y >= rect_y && 
+	// 			point_y <= rect_y + height;
 };
 
 const hovering_circle = (cursor, circle) => {
-	const {circ_x, circ_y, r} = circle;
-	const {point_x, point_y} = cursor;
-	const distanceSquared = (point_x - circ_x) ** 2 + (point_y - circ_y) ** 2;
-	const rooted_diff = Math.sqrt(distanceSquared);
-	return rooted_diff <= r;
+	// const {circ_x, circ_y, circ_r} = circle;
+	// const {point_x, point_y, point_r} = cursor;
+	const distanceBetweenCentersSquared = 
+		(circle.x - cursor.x) ** 2 + 
+		(circle.y - cursor.y) ** 2;
+	const sumOfRadiiSquared = (cursor.r + circle.r) ** 2;
+	return distanceBetweenCentersSquared < sumOfRadiiSquared;
+	// const distanceSquared = (point_x - circ_x) ** 2 + (point_y - circ_y) ** 2;
+	// const rooted_diff = Math.sqrt(distanceSquared);
+	// return rooted_diff <= r;
 };
 
 const find_nearby_shapes = possible_shapes => cursor => {

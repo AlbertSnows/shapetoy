@@ -68,20 +68,19 @@ document.getElementById('generate_rectangle')
 window.requestAnimationFrame = polyfill_animation_frames();
 // attach movement
 canvas.addEventListener('mousedown', (event) => {
-		const boundings = canvas.getBoundingClientRect();
-    const mouse_down_x = event.clientX - boundings.left;
-    const mouse_down_y = event.clientY - boundings.top;
-		state.cursor.x = mouse_down_x;
-		state.cursor.y = mouse_down_y;
+		state.cursor = update_cursor(state.cursor);
     const shape_data = find_closest_shape(state);
-    state.selected_shape = shape_data;
+    state.selected_shapes.set(shape_data?.data.id, shape_data);
     state.holding_shape = shape_data !== null;
 });
 const drag_and_highlight_listener = (event) => {
 	if(state.selected_shapes.size !== 0) {
 		listen_for_shape_drag(event);
 	} else {
-		listen_for_shape_highlight(event);
+		// listen_for_shape_highlight(event);
+	}
+	if(state.width !== undefined) {
+		console.log("wtf");
 	}
 };
 canvas.addEventListener('mousemove', drag_and_highlight_listener);
@@ -98,7 +97,8 @@ canvas.addEventListener('click', (event) => {
 	if(!shape_selected || remove_all_shapes) {
 		state.selected_shapes = new Map();
 	} else if(!shift_click && add_shape) {
-		state.selected_shapes = new Map(closest_shape.data.id, closest_shape);
+		const single_map = new Map([[closest_shape.data.id, closest_shape]]);
+		state.selected_shapes = single_map;
 	} else if(shift_click && !add_shape) {
 		state.selected_shapes.remove(closest_shape.data.id);
 	} else if(shift_click && add_shape) {
