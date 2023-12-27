@@ -8,4 +8,4 @@ const move_shape = state => {
 
 const init_release_shape = () => "meh";
 
-export { init_grab_shape, move_shape };
+export { move_shape };

@@ -1,8 +1,9 @@
 import { when } from "../utility/core.js";
 import { generate } from "../actions/draw/handlers.js";
-import { init_grab_shape, move_shape } from "../actions/drag.js";
+import { move_shape } from "../actions/drag.js";
 import { polyfill_animation_frames } from "./init_helpers.js"
 import { highlight_shape } from "../actions/highlight.js"
+	import { grab_shape_from_quad_tree } from "../utility/find.js"
 const canvas = document.getElementById("canvas");
 let state = {
 		cursor: new Quadtree.Circle({
@@ -24,7 +25,6 @@ const when_canvas_exists = when(() => canvas.getContext !== null && canvas.getCo
 const when_holding = when(() => state.holding_shape);
 const when_not_holding = when(() => !state.holding_shape);
 const boundings = canvas.getBoundingClientRect();
-const grab_shape = init_grab_shape(state);
 
 const update_cursor = cursor => {
 	const boundings = canvas.getBoundingClientRect();
@@ -73,7 +73,7 @@ canvas.addEventListener('mousedown', (event) => {
     const mouse_down_y = event.clientY - boundings.top;
 		state.cursor.x = mouse_down_x;
 		state.cursor.y = mouse_down_y;
-    const shape_data = grab_shape(state.cursor);
+    const shape_data = grab_shape_from_quad_tree(state.cursor);
     state.selected_shape = shape_data;
     state.holding_shape = shape_data !== null;
 });

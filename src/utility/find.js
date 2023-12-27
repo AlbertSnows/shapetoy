@@ -32,16 +32,19 @@ const find_nearby_shapes = possible_shapes => cursor => {
 		}
 };
 
+// bonus: clean up branches
 const find_closest_shape = nearby_shapes => {
-	const latest_rect = last(hovered_shapes["rectangles"]);
-	const latest_circle = last(hovered_shapes["circle"]);
-	const circle_is_recent = 
-		latest_circle.data.created > latest_rect.data.created;
-	if(circle_is_recent) {
+	const latest_rect = last(nearby_shapes["rectangles"] ?? null);
+	const latest_circle = last(nearby_shapes["circle"] ?? null);
+	const circle_is_recent = latest_circle?.data.created > latest_rect?.data.created;
+	if(latest_rect === null && latest_circle === null) {
+		return null;
+	} else if(latest_rect === null || circle_is_recent) {
 		return latest_circle;
-	} else {
+	} else if(latest_circle === null || !circle_is_recent) {
 		return latest_rect;
 	}
+	return null;
 };
 
 const grab_shape_from_quad_tree = state  => {
@@ -50,3 +53,5 @@ const grab_shape_from_quad_tree = state  => {
 	const nearby_shapes = find_nearby_shapes(possible_shapes)(state.cursor);
 	return find_closest_shape(nearby_shapes);
 };
+
+export { grab_shape_from_quad_tree };

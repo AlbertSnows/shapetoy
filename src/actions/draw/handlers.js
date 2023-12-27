@@ -1,5 +1,5 @@
 import { drawObjects } from "./core.js";
-import { v4: uuidv4 } from "uuid";
+// import { v4 } from uuid;
 
 const generate_circle = (state) => {
 	var ctx = state.canvas.getContext('2d');
