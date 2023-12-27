@@ -18,14 +18,14 @@ const make_color = (value) => {
 const make_div = (id) => {
 	const div = document.createElement('div');
 	div.setAttribute('id', id);
-	div.setAttribute('class', 'property-box');
+	div.setAttribute('class', 'shape-property-box');
 	return div;
 };
 const make_number = (value, class_id) => {
 	const number = document.createElement('input');
 	number.setAttribute('type', 'number');
 	number.setAttribute('value', value);
-	number.setAttribute('class', class_id);	
+	number.setAttribute('class', class_id);
 	return number;
 };
 const generate_rectangle = (shape) => {
@@ -69,7 +69,7 @@ const add_to_page = state => (v, k) => {
 	const box = property_generator[type](v)
 	box.addEventListener('input', handle_property_box_input_change);
 	const propertySection = document.getElementById('property-boxes');
-	propertySection.appendChild(box);	
+	propertySection.appendChild(box);
 };
 const update_property = state => (selected_shape) => {
 	const element_to_remove = document.querySelectorAll(".shape-property-box");
@@ -80,11 +80,11 @@ const add_properties = state => shapes_to_add => {
 	shapes_to_add.forEach(add_to_page(state));
 };
 const remove_properties = boxes_to_remove => {
-	boxes_to_remove.forEach(e => element.parentNode.removeChild(e));
+	boxes_to_remove.forEach(e => e.parentNode.removeChild(e));
 };
 const update_property_display = (document, state) => {
 	const selected_shapes = state.selected_shapes;
-	const existing_property_boxes = document.querySelectorAll(".shape-property-box");
+	const existing_property_boxes = Array.from(document.querySelectorAll(".shape-property-box"));
 	const existing_length = existing_property_boxes.length;
 	const selected_length = selected_shapes.size;
 	const ids = new Set(Array.from(existing_property_boxes).map(element => element.id));
@@ -94,11 +94,11 @@ const update_property_display = (document, state) => {
 	if(only_one) {
 		update_property(state)(selected_shapes);
 	} else if(should_add_properties) {
-		const shapes_to_add = selected_shapes.filter((k, v) => !ids.contains(k))
+		const shapes_to_add = selected_shapes.filter((k, v) => !ids.has(k))
 		add_properties(state)(shapes_to_add);
 	} else if(should_remove_properties) {
 		const boxes_to_remove = existing_property_boxes
-			.filter(e => !selected_shapes.contains(e.id));
+			.filter(e => !selected_shapes.has(e.id));
 		remove_properties(boxes_to_remove);
 	} // else no change
 };
