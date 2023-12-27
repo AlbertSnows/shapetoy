@@ -59,11 +59,11 @@ const listen_for_shape_highlight = event => {
 // attach generate
 document.getElementById('generate_circle')
     .addEventListener('click', () => when_canvas_exists(() => {
-			generate["circle"](state);
+			generate[CIRCLE](state);
 		}));
 document.getElementById('generate_rectangle')
     .addEventListener('click', () => when_canvas_exists(() => {
-			generate["rectangle"](state)
+			generate[RECTANGLE](state)
 		}));
 window.requestAnimationFrame = polyfill_animation_frames();
 // attach movement

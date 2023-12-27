@@ -1,0 +1,2 @@
+const CIRCLE = CIRCLE;
+const RECTANGLE = RECTANGLE;

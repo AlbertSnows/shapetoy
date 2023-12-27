@@ -58,8 +58,8 @@ const generate_circle = (shape) => {
 	return box;
 };
 const property_generator = {
-	"rectangle": generate_rectangle,
-	"circle": generate_circle
+	RECTANGLE: generate_rectangle,
+	CIRCLE: generate_circle
 };
 const handle_property_box_input_change = state => (e) => {
 	const changed_input = e.target;
@@ -68,7 +68,7 @@ const handle_property_box_input_change = state => (e) => {
 	//todo: handle any input box change
 };
 const add_to_page = state => (v, k) => {
-	const type = v.width ? "rectangle" : "circle";
+	const type = v.width ? RECTANGLE : CIRCLE;
 	const box = property_generator[type](v)
 	box.addEventListener('input', handle_property_box_input_change(state));
 	const propertySection = document.getElementById('property-boxes');

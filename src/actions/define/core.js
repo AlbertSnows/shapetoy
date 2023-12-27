@@ -1,4 +1,3 @@
-// import { draw_existing_shapes } from "../draw/core.js";
 import {v4 as uuidv4 } from 'https://cdn.jsdelivr.net/npm/uuid@9.0.1/+esm';
 
 const generate_circle = (ctx) => {
@@ -37,15 +36,15 @@ const generate_rectangle = (ctx) => {
 	return rect;
 };
 
-const generate = {
-	"circle": generate_circle,
-	"rectangle": generate_rectangle,
+const generate_types = {
+	CIRCLE: generate_circle,
+	RECTANGLE: generate_rectangle,
 };
 
 const generate = state => {
 	const canvas = state.canvas;
 	const ctx = canvas.getContext('2d');
-	const shape = generate[type](ctx);
+	const shape = generate_types[type](ctx);
 	state.existing_shapes.set(shape.data.id, shape);
 	state.shape_locations.insert(shape);	
 	return state;
@@ -55,28 +54,27 @@ const regenerate = state => shape => {
 	const ctx = canvas.getContext('2d');
 	state.shape_locations.remove(shape);
 	state.existing_shapes.delete(shape.data.id);
-	const regenerated_shape = generate[type](ctx);
+	const regenerated_shape = generate_types[type](ctx);
 	state.existing_shapes.set(regenerated_shape.data.id, regenerated_shape);
 	state.shape_locations.insert(regenerated_shape);	
 	return state;
 
 };
 
-const generate_highlighted_shape = () => {
+const generate_highlighted_shape = state => shape => {
 
 };
 
-const generate_unhighlighted_shape = () => {
+const generate_unhighlighted_shape = state => shape => {
 
 };
 
 const generate_commands = {
-	// "highlight" => generate_highlighted_shape,
-	// "unhighlight" => generate_unhighlighted_shape,
 };
 
-const regenerate_commands = {
-
+const regenerate_commands = state => {
+	"highlight" => generate_highlighted_shape(state),
+	"unhighlight" => generate_unhighlighted_shape(state),
 };
 
-export { generate, generate_commands };
+export { generate_types as generate, generate_commands };
