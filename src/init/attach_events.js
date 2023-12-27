@@ -1,5 +1,5 @@
 import { when } from "../utility/core.js";
-import { generate } from "../actions/draw/handlers.js";
+import { generate } from "../actions/define/core.js";
 import { move_shape } from "../actions/drag.js";
 import { polyfill_animation_frames } from "./init_helpers.js";
 import { highlight_shape } from "../actions/highlight.js";
@@ -68,9 +68,9 @@ document.getElementById('generate_rectangle')
 window.requestAnimationFrame = polyfill_animation_frames();
 // attach movement
 canvas.addEventListener('mousedown', (event) => {
-    // const shape_data = find_closest_shape(state);
+    const shape_data = find_closest_shape(state);
     // state.selected_shapes.set(shape_data?.data.id, shape_data);
-    // state.holding_shape = shape_data !== null;
+    state.holding_shape = shape_data !== null;
 });
 const drag_and_highlight_listener = (event) => {
 	if(state.selected_shapes.size !== 0) {

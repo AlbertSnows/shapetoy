@@ -8,4 +8,7 @@ const when = pred => action => {
 const first = list => list[0] ?? null;
 const last = list => list[list.length - 1] ?? null;
 const filter_map = pred => map => new Map([...map].filter(pred));
-export { when, first, last, filter_map };
+const random = (min, max) => {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+export { when, first, last, filter_map, random };
