@@ -42,4 +42,11 @@ const find_closest_shape = nearby_shapes => {
 	} else {
 		return latest_rect;
 	}
-}
+};
+
+const grab_shape_from_quad_tree = state  => {
+	const quadtree = state.shape_locations;
+	const possible_shapes = quadtree.retrieve(state.cursor);
+	const nearby_shapes = find_nearby_shapes(possible_shapes)(state.cursor);
+	return find_closest_shape(nearby_shapes);
+};

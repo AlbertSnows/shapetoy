@@ -4,7 +4,6 @@ import { init_grab_shape, move_shape } from "../actions/drag.js";
 import { polyfill_animation_frames } from "./init_helpers.js"
 import { highlight_shape } from "../actions/highlight.js"
 const canvas = document.getElementById("canvas");
-
 let state = {
 		cursor: new Quadtree.Circle({
 			x: 0, 
@@ -12,8 +11,9 @@ let state = {
 			r: 3
 		}),
     holding_shape: false,
+		hovered_shape: null,
     selected_shape: null,
-    existing_shapes: [],
+    existing_shapes: new Map(),
 		canvas: canvas,
     shape_locations: new Quadtree({ 
 			width: canvas === null || canvas === void 0 ? void 0 : canvas.clientWidth, 
@@ -62,8 +62,20 @@ const listen_for_shape_drag = (event) => {
 };
 const listen_for_shape_highlight = event => {
 	state.cursor = update_cursor(state.cursor);
-	const hovered_shapes = grab_shape(cursor);
-	highlight_shape(hovered_shapes);
+	const closest_shape = grab_shape_from_quad_tree(state);
+	const not_hovering_over_same_shape = state.hovered_shape !== null && state.hovered_shape !== closest_shape;
+	if(not_hovering_over_same_shape) {
+		const unhighlight_shape = unhighlight_shape(closest_shape);
+		state = update_shape(state, closest_shape, unhighlight_shape);
+	}
+	const highlighted_closest_shape = highlight_shape(closest_shape);
+	state = draw_shape(state, highlighted_closest_shape);
+	state.hovered_shape = highlighted_closest_shape;
+	// c or r
+	// remove from array and tree
+	// create new shape from obj
+	// add to array and tree from created one
+	// mark highlighted
 };
 canvas.addEventListener('mousemove', (event) => {
 	when_holding(() => listen_for_shape_drag(event));

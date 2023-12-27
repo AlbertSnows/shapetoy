@@ -1,4 +1,5 @@
 import { drawObjects } from "./core.js";
+import { v4: uuidv4 } from "uuid";
 
 const generate_circle = (state) => {
 	var ctx = state.canvas.getContext('2d');
@@ -12,7 +13,8 @@ const generate_circle = (state) => {
 		r: radius,
 		data: {
 			color: color,
-			created: (new Date().getTime())
+			created: (new Date().getTime()),
+			id: uuidv4()
 		}
 	});
 	
@@ -38,7 +40,8 @@ const generate_rectangle = (state) => {
 		height: Math.floor(Math.random() * (50 - 10 + 1)) + 10,
 		data: {
 				color: color,
-				created: (new Date().getTime())
+				created: (new Date().getTime()),
+				id: uuidv4()
 		},
 });
 state.existing_shapes.push(rect);
