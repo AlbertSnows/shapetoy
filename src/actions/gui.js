@@ -1,5 +1,6 @@
 import { filter_map } from "../utility/core.js";
-
+import { CIRCLE, RECTANGLE } from "../utility/constants.js";
+import { highlight_shapes, unhighlight_shapes } from "./draw/highlight.js";
 const make_range = (value, class_id) => {
     // Create a range input for width
     const range = document.createElement('input');
@@ -57,8 +58,8 @@ const generate_circle = (shape) => {
 	return box;
 };
 const property_generator = {
-	"rectangle": generate_rectangle,
-	CIRCLE: generate_circle
+	[RECTANGLE]: generate_rectangle,
+	[CIRCLE]: generate_circle
 };
 const handle_property_box_input_change = state => (e) => {
 	const changed_input = e.target;
@@ -67,7 +68,7 @@ const handle_property_box_input_change = state => (e) => {
 	//todo: handle any input box change
 };
 const add_to_page = state => (v, k) => {
-	const type = v.width ? "rectangle" : CIRCLE;
+	const type = v.width ? RECTANGLE : CIRCLE;
 	const box = property_generator[type](v)
 	box.addEventListener('input', handle_property_box_input_change(state));
 	const propertySection = document.getElementById('property-boxes');
@@ -96,7 +97,7 @@ const update_property_display = (document, state) => {
 	const only_one = selected_shapes.size === 1;
 	if(only_one) {
 		update_property(state)(selected_shapes);
-		selected_shapes.forEach(highlight_shape(state));
+		highlight_shapes(state);
 	} else if(should_add_properties) {
 		const shapes_to_add = filter_map((p, i) => !ids.has(p[0]))(selected_shapes);
 		highlight_shapes(state);

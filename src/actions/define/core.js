@@ -1,6 +1,6 @@
 import {v4 as uuidv4 } from 'https://cdn.jsdelivr.net/npm/uuid@9.0.1/+esm';
 import { CIRCLE, RECTANGLE } from '../../utility/constants.js';
-const generate_circle = (ctx) => {
+const generate_circle = () => {
 	var x = Math.floor(Math.random() * (canvas.width-60));
 	var y = Math.floor(Math.random() * (canvas.height-30));
 	var radius = Math.floor(1 * (50)) + 10;
@@ -18,7 +18,7 @@ const generate_circle = (ctx) => {
 	return circle;
 };
 
-const generate_rectangle = (ctx) => {
+const generate_rectangle = () => {
 	var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 	const rect = new Quadtree.Rectangle({
 		x: Math.random() * (canvas.width-60),
@@ -39,22 +39,19 @@ const generate_types = {
 	[RECTANGLE]: generate_rectangle,
 };
 
-const generate_shape = state => type => {
-	const canvas = state.canvas;
-	const ctx = canvas.getContext('2d');
-	const shape = generate_types[type](ctx);
+const add_shape = state => shape => {
 	state.existing_shapes.set(shape.data.id, shape);
 	state.shape_locations.insert(shape);	
 	return state;
 };
-const remove_shape = state => {
+const remove_shape = state => shape => {
 	state.shape_locations.remove(shape);
 	state.existing_shapes.delete(shape.data.id);
 	return state;
 };
-const regenerate_shape = state => type => shape => generate_shape(remove_shape(state, shape), type);
+const readd_shape = state => shape => add_shape(remove_shape(state, shape), shape);
 
-
+const make_shape = type => generate_types[type]();
 
 const generate_commands = {
 	"generate": generate_shape,
