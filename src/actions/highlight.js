@@ -1,5 +1,9 @@
-const highlight_shape = closest_shape => {
-
+const highlight_shape = (state, closest_shape) => {
+	return state;
 };
 
-export { highlight_shape };
+const unhighlight_shape = (state) => {
+	return state;	
+};
+
+export { highlight_shape, unhighlight_shape };

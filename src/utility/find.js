@@ -34,8 +34,8 @@ const find_nearby_shapes = possible_shapes => cursor => {
 
 // bonus: clean up branches
 const find_closest_shape = nearby_shapes => {
-	const latest_rect = last(nearby_shapes["rectangles"] ?? null);
-	const latest_circle = last(nearby_shapes["circle"] ?? null);
+	const latest_rect = last(nearby_shapes["rectangles"] ?? []);
+	const latest_circle = last(nearby_shapes["circle"] ?? []);
 	const circle_is_recent = latest_circle?.data.created > latest_rect?.data.created;
 	if(latest_rect === null && latest_circle === null) {
 		return null;

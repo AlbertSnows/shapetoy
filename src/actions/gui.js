@@ -1,11 +1,11 @@
-const make_range = (value, class) => {
+const make_range = (value, class_id) => {
     // Create a range input for width
     const range = document.createElement('input');
     range.setAttribute('type', 'range');
     range.setAttribute('min', '1');
     range.setAttribute('max', '500');
     range.setAttribute('value', value);
-    range.classList.add(class);
+		range.setAttribute('class', class_id)
 		return range;
 };
 const make_color = (value) => {
@@ -21,11 +21,11 @@ const make_div = (id) => {
 	div.setAttribute('class', 'property-box');
 	return div;
 };
-const make_number = (value, class) => {
+const make_number = (value, class_id) => {
 	const number = document.createElement('input');
 	range.setAttribute('type', 'number');
 	range.setAttribute('value', value);
-	Range.setAttribute('class', class);	
+	range.setAttribute('class', class_id);	
 };
 const generate_rectangle = (shape) => {
 	const width = make_range(shape.width, 'width-input');
