@@ -55,4 +55,4 @@ const draw_existing_shapes = canvas => style => existing_shapes => {
 	existing_shapes.forEach((v, k) => draw_shape(v));
 };
 
-export { draw_existing_shapes };
+export { draw_existing_shapes, draw_existing_shape };
