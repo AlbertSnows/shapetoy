@@ -3,7 +3,7 @@ import { move_shape } from "../actions/drag.js";
 import { polyfill_animation_frames } from "./init_helpers.js";
 import { find_closest_shape } from "../utility/find.js";
 import { update_property_display } from "../actions/gui.js";
-import { add_shape } from "../actions/draw/handlers.js";
+import { add_shape, make_shape } from "../actions/draw/handlers.js";
 import { CIRCLE, RECTANGLE } from "../utility/constants.js";
 const canvas = document.getElementById("canvas");
 let state = {
@@ -27,8 +27,8 @@ const boundings = canvas.getBoundingClientRect();
 
 const update_cursor = (event, cursor) => {
 	const boundings = canvas.getBoundingClientRect();
-  const mouse_down_x = event.clientX; // - boundings.left;
-	const mouse_down_y = event.clientY; // - boundings.top;
+  const mouse_down_x = event.clientX - boundings.left;
+	const mouse_down_y = event.clientY - boundings.top;
 	cursor.x = mouse_down_x;
 	cursor.y = mouse_down_y;
 	return cursor;
@@ -58,15 +58,16 @@ const listen_for_shape_highlight = event => {
 // attach generate
 document.getElementById('generate_circle')
     .addEventListener('click', () => when_canvas_exists(() => {
-			state = add_shape(state)(CIRCLE);
+			state = add_shape(state)(make_shape(CIRCLE));
 		}));
 document.getElementById('generate_rectangle')
     .addEventListener('click', () => when_canvas_exists(() => {
-			state = add_shape(state)(RECTANGLE)
+			state = add_shape(state)(make_shape(RECTANGLE))
 		}));
 window.requestAnimationFrame = polyfill_animation_frames();
 // attach movement
 canvas.addEventListener('mousedown', (event) => {
+		state.cursor = update_cursor(event, state.cursor);
     const shape_data = find_closest_shape(state);
     // state.selected_shapes.set(shape_data?.data.id, shape_data);
     state.holding_shape = shape_data !== null;
@@ -84,7 +85,6 @@ canvas.addEventListener('mouseup', (event) => {
     state.holding_shape = false;
 });
 canvas.addEventListener('click', (event) => {
-	state.cursor = update_cursor(event, state.cursor);
 	const shift_click = event.shiftKey;
 	const closest_shape = find_closest_shape(state);
 	const shape_selected = closest_shape !== null;

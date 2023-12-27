@@ -5,18 +5,23 @@ const constrain = (value_to_constrain, min, max) => {
 	const value_or_min_or_max = Math.max(value_or_max, min);
 	return value_or_min_or_max;
 };
-const hovering_rectangle = (cursor, rect) => {
+const hovering_rectangle = (canvas, cursor, rect) => {
+	const ctx = canvas.getContext('2d');
+	ctx.rect(rect.x, rect.y, rect.width, rect.height);
+	const { x, y } = cursor;
+	return ctx.isPointInPath(x, y);
+
 	// Find the closest point on the rectangle to the circle
-	let closest_to_cursor_x = constrain(cursor.x, rect.y, rect.x + rect.width);
-	let closest_to_cursor_y = constrain(cursor.y, rect.y, rect.y + rect.height);
+	// let closest_to_cursor_x = constrain(cursor.x, rect.y, rect.x + rect.width);
+	// let closest_to_cursor_y = constrain(cursor.y, rect.y, rect.y + rect.height);
 
-	// Calculate distance between the circle's center and the closest point
-	let distance_from_circle_x_to_closest_x = cursor.x - closest_to_cursor_x;
-	let distance_from_circle_y_to_closest_y = cursor.y - closest_to_cursor_y;
-	let distance_squared = (distance_from_circle_x_to_closest_x ** 2) + (distance_from_circle_y_to_closest_y ** 2);
+	// // Calculate distance between the circle's center and the closest point
+	// let distance_from_circle_x_to_closest_x = cursor.x - closest_to_cursor_x;
+	// let distance_from_circle_y_to_closest_y = cursor.y - closest_to_cursor_y;
+	// let distance_squared = (distance_from_circle_x_to_closest_x ** 2) + (distance_from_circle_y_to_closest_y ** 2);
 
-	// Check if the closest point is within the circle or on its circumference
-	return distance_squared <= (cursor.r ** 2);
+	// // Check if the closest point is within the circle or on its circumference
+	// return distance_squared <= (cursor.r ** 2);
 
 	// const {rect_x, rect_y, width, height} = rect;
 	// const {point_x, point_y} = cursor;
@@ -26,7 +31,7 @@ const hovering_rectangle = (cursor, rect) => {
 	// 			point_y <= rect_y + height;
 };
 
-const hovering_circle = (cursor, circle) => {
+const hovering_circle = (canvas, cursor, circle) => {
 	// const {circ_x, circ_y, circ_r} = circle;
 	// const {point_x, point_y, point_r} = cursor;
 	const distanceBetweenCentersSquared = 
@@ -39,12 +44,12 @@ const hovering_circle = (cursor, circle) => {
 	// return rooted_diff <= r;
 };
 
-const find_nearby_shapes = possible_shapes => cursor => {
+const find_nearby_shapes = canvas => possible_shapes => cursor => {
 	const p_rectangles = possible_shapes.filter(s => 'width' in s);
-	const over_retangles = possible_shapes
-		.filter(r => hovering_rectangle(cursor, r));
+	const over_retangles = p_rectangles
+		.filter(r => hovering_rectangle(canvas, cursor, r));
 	const p_circles = possible_shapes.filter(s => 'r' in s);
-	const over_circles = possible_shapes.filter(c => hovering_circle(cursor, c));
+	const over_circles = p_circles.filter(c => hovering_circle(canvas, cursor, c));
 	return {
 		"circles": over_circles,
 		"rectangles": over_retangles
@@ -69,7 +74,7 @@ const find_closest_nearby_shape = nearby_shapes => {
 const find_closest_shape = state  => {
 	const quadtree = state.shape_locations;
 	const possible_shapes = quadtree.retrieve(state.cursor);
-	const nearby_shapes = find_nearby_shapes(possible_shapes)(state.cursor);
+	const nearby_shapes = find_nearby_shapes(state.canvas)(possible_shapes)(state.cursor);
 	return find_closest_nearby_shape(nearby_shapes);
 };
 

@@ -4,8 +4,9 @@ import { generate_commands } from "../define/core.js";
 import { draw_existing_shapes, draw_existing_shape } from "./core.js";
 
 const highlight_shape = 
-	state => shape => draw_existing_shape(state.canvas.getContext('2d'))("highlight")(shape);
+	state => shape => draw_existing_shape(state.canvas)("highlight")(shape);
 const unhighlight_shapes = 
-	state => shapes_to_unhighlight => draw_existing_shapes(state.canvas)("fill")(shapes_to_unhighlight);
+	state => shapes_to_unhighlight => shapes_to_unhighlight.forEach(
+		(v, k) => draw_existing_shape(state.canvas)("unhighlight")(v));
 
 export { highlight_shape, unhighlight_shapes };

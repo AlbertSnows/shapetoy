@@ -51,11 +51,9 @@ const remove_shape = state => shape => {
 };
 const readd_shape = state => shape => add_shape(remove_shape(state, shape), shape);
 
-const make_shape = type => generate_types[type]();
-
 const generate_commands = {
-	"generate": generate_shape,
-	"regenerate": regenerate_shape
+	"generate": add_shape,
+	"regenerate": readd_shape
 };
 
-export { generate_commands };
+export { generate_commands, generate_types };

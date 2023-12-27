@@ -1,6 +1,6 @@
 import { filter_map } from "../utility/core.js";
 import { CIRCLE, RECTANGLE } from "../utility/constants.js";
-import { highlight_shapes, unhighlight_shapes } from "./draw/highlight.js";
+import { highlight_shape, unhighlight_shapes } from "./draw/highlight.js";
 const make_range = (value, class_id) => {
     // Create a range input for width
     const range = document.createElement('input');
@@ -97,17 +97,17 @@ const update_property_display = (document, state) => {
 	const only_one = selected_shapes.size === 1;
 	if(only_one) {
 		update_property(state)(selected_shapes);
-		highlight_shapes(state);
+		selected_shapes.forEach((v, k) => highlight_shape(state)(v));
 	} else if(should_add_properties) {
 		const shapes_to_add = filter_map((p, i) => !ids.has(p[0]))(selected_shapes);
-		highlight_shapes(state);
+		selected_shapes.forEach((v, k) => highlight_shape(state)(v));
 		add_properties(state)(shapes_to_add);
 	} else if(should_remove_properties) {
 		const boxes_to_remove = existing_property_boxes
 			.filter(e => !selected_shapes.has(e.id));
 		remove_properties(boxes_to_remove);
-		const shapes_to_unhighlight = filter_map((p, i) => !ids.has(p[0]))(selected_shapes);
-		unhighlight_shapes(state);
+		const shapes_to_unhighlight = filter_map((p, i) => !selected_shapes.has(p[0]))(state.existing_shapes);
+		unhighlight_shapes(state)(shapes_to_unhighlight);
 	} // else no change
 };
 
