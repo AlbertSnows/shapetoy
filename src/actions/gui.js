@@ -62,19 +62,17 @@ const add_to_page = (k, v) => {
 	const propertySection = document.getElementById('property-boxes');
 	propertySection.appendChild(box);	
 };
-const update_property = (document, selected_shape) => {
+const update_property = (selected_shape) => {
 	const element_to_remove = document.querysSelectorAll(".shape-property-box");
 	elementsToRemove.forEach(element => element.parentNode.removeChild(element));
 	selected_shape.forEach(add_to_page);
 };
 const add_properties = shapes_to_add => {
-
+	shapes_to_add.forEach(add_to_page);
 };
-const remove_properties = shapes_to_remove => {
-
+const remove_properties = boxes_to_remove => {
+	boxes_to_remove.forEach(e => element.parentNode.removeChild(e));
 };
-	// 
-
 const update_property_display = (document, selected_shapes) => {
 	const existing_property_boxes = document.querysSelectorAll(".shape-property-box");
 	const existing_length = existing_property_boxes.length;
@@ -89,9 +87,8 @@ const update_property_display = (document, selected_shapes) => {
 		const shapes_to_add = selected_shapes.filter((k, v) => !ids.contains(k))
 		add_properties(shapes_to_add);
 	} else if(should_remove_properties) {
-		// selected 1 2 3
-		// existing 1 2 3 4
-		const shapes_to_remove = selected_shapes.filter((k, v) => !ids.contains(k));
-		remove_properties(shapes_to_remove);
+		const boxes_to_remove = existing_property_boxes
+			.filter(e => !selected_shapes.contains(e.id));
+		remove_properties(boxes_to_remove);
 	} // else no change
 };
