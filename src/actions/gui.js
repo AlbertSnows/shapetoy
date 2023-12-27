@@ -71,7 +71,7 @@ const add_to_page = state => (k, v) => {
 	propertySection.appendChild(box);	
 };
 const update_property = state => (selected_shape) => {
-	const element_to_remove = querysSelectorAll(".shape-property-box");
+	const element_to_remove = document.querySelectorAll(".shape-property-box");
 	elementsToRemove.forEach(element => element.parentNode.removeChild(element));
 	selected_shape.forEach(add_to_page(state));
 };
@@ -83,10 +83,10 @@ const remove_properties = boxes_to_remove => {
 };
 const update_property_display = (document, state) => {
 	const selected_shapes = state.selected_shapes;
-	const existing_property_boxes = document.querysSelectorAll(".shape-property-box");
+	const existing_property_boxes = document.querySelectorAll(".shape-property-box");
 	const existing_length = existing_property_boxes.length;
 	const selected_length = selected_shapes.size;
-	const ids = Set.from(existing_property_boxes).map(element => element.id);
+	const ids = new Set(Array.from(existing_property_boxes).map(element => element.id));
 	const should_add_properties = selected_length > existing_length;
 	const should_remove_properties = selected_length < existing_length;
 	const only_one = selected_shapes.size === 1;
@@ -101,3 +101,5 @@ const update_property_display = (document, state) => {
 		remove_properties(boxes_to_remove);
 	} // else no change
 };
+
+export { update_property_display };
