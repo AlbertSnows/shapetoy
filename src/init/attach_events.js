@@ -101,5 +101,5 @@ canvas.addEventListener('click', (event) => {
 	} else if(shift_click && add_shape) {
 		state.selected_shapes.put(closest_shape.data.id, closest_shape);
 	} // if no shapes selected and remove shape, do nothing
-	reset_property_display();
+	reset_property_display(state.selected_shapes);
 });
