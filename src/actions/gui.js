@@ -60,7 +60,7 @@ const property_generator = {
 	"rectangle": generate_rectangle,
 	"circle": generate_circle
 };
-const handle_property_box_input_change = (e) => {
+const handle_property_box_input_change = state => (e) => {
 	const changed_input = e.target;
 	const parent_box = e.currentTarget;
 	const id = parent_box.id;
@@ -69,7 +69,7 @@ const handle_property_box_input_change = (e) => {
 const add_to_page = state => (v, k) => {
 	const type = v.width ? "rectangle" : "circle";
 	const box = property_generator[type](v)
-	box.addEventListener('input', handle_property_box_input_change);
+	box.addEventListener('input', handle_property_box_input_change(state));
 	const propertySection = document.getElementById('property-boxes');
 	propertySection.appendChild(box);
 };
