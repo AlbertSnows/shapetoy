@@ -43,15 +43,15 @@ const style_types = {
 	"fill": fill_map
 };
 
-const draw_existing_shape = canvas => style => shape => {
-	const ctx = canvas.getContext('2d');
-	ctx.clearRect(0, 0, canvas.width, canvas.height)
+const draw_existing_shape = ctx => style => shape => {
 	const type = shape.width ? 'rectangle' : 'circle';
 	style_types[style][type](ctx)(shape);	
 };
 
 const draw_existing_shapes = canvas => style => existing_shapes => {
-	const draw_shape = draw_existing_shape(canvas)(style);
+	const ctx = canvas.getContext('2d');
+	const draw_shape = draw_existing_shape(ctx)(style);
+	ctx.clearRect(0, 0, canvas.width, canvas.height)
 	existing_shapes.forEach((v, k) => draw_shape(v));
 };
 
