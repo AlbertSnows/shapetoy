@@ -52,19 +52,7 @@ const unhighlight_circle = canvas => circle => {
 	ctx.clearRect(x - r - 4, y - r - 4, r * 2 + 8 , r * 2 + 8);
 	ctx.closePath();
 	ctx.restore();
-	// ctx.save();
-	// ctx.arc(x, y, r + 80 , 0, Math.PI * 2);
-	// ctx.clip();
-	// ctx.clearRect(x - r, y - r, r * 2, r * 2);
-	// ctx.restore();
 	fill_circle(canvas)(circle);
-
-	// ctx.beginPath();
-	// ctx.rect(0, 0, canvas.width, canvas.height);
-	// ctx.arc(x, y, r, 0, Math.PI * 2, true); 
-	// ctx.closePath();
-	// ctx.clip();
-	// ctx.clearRect(0, 0, canvas.width, canvas.height);
 };
 const unhighlight_rectangle = canvas => rect => {
 	const { x, y, width, height } = rect;
@@ -72,14 +60,6 @@ const unhighlight_rectangle = canvas => rect => {
 	ctx.clearRect(x - 4, y - 4, width + 8, height + 8); 
   ctx.fillStyle = rect.data.color;
   ctx.fillRect(x, y, width, height);
-	// ctx.beginPath();
-	// ctx.rect(0, 0, canvas.width, canvas.height);
-	// ctx.arc(x, y, r, 0, Math.PI * 2, true); 
-	// ctx.closePath();
-
-	// ctx.clip();
-	// ctx.clearRect(x - 2, y - 2, width + 4, height + 4);
-  // ctx.strokeRect(x, y, width, height);
 };
 
 const unhighlight_map = {
