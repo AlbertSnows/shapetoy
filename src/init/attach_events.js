@@ -6,6 +6,7 @@ import { update_property_display } from "../actions/gui.js";
 import { add_shape, make_shape } from "../actions/draw/handlers.js";
 import { CIRCLE, RECTANGLE } from "../utility/constants.js";
 import { highlight_shape, unhighlight_shapes, unhighlight_shape } from "../actions/draw/highlight.js";
+import { draw_existing_shapes } from "../actions/draw/core.js"
 const canvas = document.getElementById("canvas");
 let state = {
 		cursor: new Quadtree.Circle({
@@ -37,7 +38,9 @@ const update_cursor = (event, cursor) => {
 
 const listen_for_shape_drag = (event) => {
 	state.cursor = update_cursor(event, state.cursor);
-	move_shape(state);
+	// redraw_shapes(e)(state);
+	state.selected_shapes.forEach((v, k) => { return move_shape(event)(state)(v); });
+	draw_existing_shapes(canvas)("fill")(state.existing_shapes);
 };
 const listen_for_shape_highlight = event => {
 	state.cursor = update_cursor(event, state.cursor);
@@ -72,20 +75,21 @@ window.requestAnimationFrame = polyfill_animation_frames();
 // attach movement
 canvas.addEventListener('mousedown', (event) => {
 		state.cursor = update_cursor(event, state.cursor);
+		state.holding_shape = true;
     const shape_data = find_closest_shape(state);
     // state.selected_shapes.set(shape_data?.data.id, shape_data);
     state.holding_shape = shape_data !== null;
 });
 const drag_and_highlight_listener = (event) => {
-	if(state.selected_shapes.size !== 0) {
-		// listen_for_shape_drag(event);
+	if(state.selected_shapes.size !== 0 && state.holding_shape) {
+		listen_for_shape_drag(event);
 	} else {
 		state = listen_for_shape_highlight(event);
 	}
 };
 canvas.addEventListener('mousemove', drag_and_highlight_listener);
 canvas.addEventListener('mouseup', (event) => {
-    state.selected_shape = null;
+    // state.selected_shapes ;
     state.holding_shape = false;
 });
 canvas.addEventListener('click', (event) => {
