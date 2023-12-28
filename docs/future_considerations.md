@@ -28,4 +28,3 @@ only erase rectangular sections which is unfortunate. Again,
 aside from enhancments to the API, I don't know of any 
 meaningful ways to surpass these bottlenecks. 
 
-# # Additional changes I'd like to make
