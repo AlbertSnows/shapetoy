@@ -55,7 +55,7 @@ const unhighlight_circle = canvas => circle => {
 const unhighlight_rectangle = canvas => rect => {
 	const { x, y, width, height } = rect;
 	const ctx = canvas.getContext('2d');
-	ctx.clearRect(x - 2, y - 2, width + 4, height + 4); 
+	ctx.clearRect(x - 4, y - 4, width + 8, height + 8); 
   ctx.fillStyle = rect.data.color;
   ctx.fillRect(x, y, width, height);
 	// ctx.beginPath();

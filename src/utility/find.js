@@ -7,28 +7,11 @@ const constrain = (value_to_constrain, min, max) => {
 };
 const hovering_rectangle = (canvas, cursor, rect) => {
 	const ctx = canvas.getContext('2d');
+	ctx.beginPath();
 	ctx.rect(rect.x, rect.y, rect.width, rect.height);
+	ctx.closePath();
 	const { x, y } = cursor;
 	return ctx.isPointInPath(x, y);
-
-	// Find the closest point on the rectangle to the circle
-	// let closest_to_cursor_x = constrain(cursor.x, rect.y, rect.x + rect.width);
-	// let closest_to_cursor_y = constrain(cursor.y, rect.y, rect.y + rect.height);
-
-	// // Calculate distance between the circle's center and the closest point
-	// let distance_from_circle_x_to_closest_x = cursor.x - closest_to_cursor_x;
-	// let distance_from_circle_y_to_closest_y = cursor.y - closest_to_cursor_y;
-	// let distance_squared = (distance_from_circle_x_to_closest_x ** 2) + (distance_from_circle_y_to_closest_y ** 2);
-
-	// // Check if the closest point is within the circle or on its circumference
-	// return distance_squared <= (cursor.r ** 2);
-
-	// const {rect_x, rect_y, width, height} = rect;
-	// const {point_x, point_y} = cursor;
-	// return point_x >= rect_x && 
-	// 			point_x <= rect_x + width && 
-	// 			point_y >= rect_y && 
-	// 			point_y <= rect_y + height;
 };
 
 const hovering_circle = (canvas, cursor, circle) => {
