@@ -19,7 +19,7 @@ const move_options = {
 	[CIRCLE]: move_circle,
 	[RECTANGLE]: move_rectangle
 };
-
+// bonus: preserve coords
 const move_shape = e => state => shape => {
 	const canvas = state.canvas;
 	const type = shape.width ? RECTANGLE : CIRCLE;
