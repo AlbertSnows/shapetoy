@@ -36,13 +36,13 @@ const update_cursor = (event, cursor) => {
 	return cursor;
 };
 
-const listen_for_shape_drag = (event) => {
+const handle_shape_drag = (event) => {
 	state.cursor = update_cursor(event, state.cursor);
-	// redraw_shapes(e)(state);
 	state.selected_shapes.forEach((v, k) => { return move_shape(event)(state)(v); });
 	draw_existing_shapes(canvas)("fill")(state.existing_shapes);
+	return state;
 };
-const listen_for_shape_highlight = event => {
+const handle_shape_highlight = event => {
 	state.cursor = update_cursor(event, state.cursor);
 	const closest_shape = find_closest_shape(state);
 	const hovering = closest_shape !== null;
@@ -62,37 +62,7 @@ const listen_for_shape_highlight = event => {
 	} // else not highlighting anything or highlighting same object
 	return state;
 };
-// attach generate
-document.getElementById('generate_circle')
-    .addEventListener('click', () => when_canvas_exists(() => {
-			state = add_shape(state)(make_shape(CIRCLE));
-		}));
-document.getElementById('generate_rectangle')
-    .addEventListener('click', () => when_canvas_exists(() => {
-			state = add_shape(state)(make_shape(RECTANGLE))
-		}));
-window.requestAnimationFrame = polyfill_animation_frames();
-// attach movement
-canvas.addEventListener('mousedown', (event) => {
-		state.cursor = update_cursor(event, state.cursor);
-		state.holding_shape = true;
-    const shape_data = find_closest_shape(state);
-    // state.selected_shapes.set(shape_data?.data.id, shape_data);
-    state.holding_shape = shape_data !== null;
-});
-const drag_and_highlight_listener = (event) => {
-	if(state.selected_shapes.size !== 0 && state.holding_shape) {
-		listen_for_shape_drag(event);
-	} else {
-		state = listen_for_shape_highlight(event);
-	}
-};
-canvas.addEventListener('mousemove', drag_and_highlight_listener);
-canvas.addEventListener('mouseup', (event) => {
-    // state.selected_shapes ;
-    state.holding_shape = false;
-});
-canvas.addEventListener('click', (event) => {
+const handle_user_click = event => {
 	const shift_click = event.shiftKey;
 	const closest_shape = find_closest_shape(state);
 	const shape_selected = closest_shape !== null;
@@ -109,5 +79,37 @@ canvas.addEventListener('click', (event) => {
 		state.selected_shapes.set(closest_shape.data.id, closest_shape);
 	} // if no shapes, no shapes selected and remove shape, do nothing
 	update_property_display(document, state);
+};
+
+const handle_mouse_down = event => {
+	state.cursor = update_cursor(event, state.cursor);
+	state.holding_shape = true;
+	const shape_data = find_closest_shape(state);
+	state.holding_shape = shape_data !== null;
+};
+
+// attach generate
+document.getElementById('generate_circle')
+	.addEventListener('click', () => when_canvas_exists(() => {
+		state = add_shape(state)(make_shape(CIRCLE));
+	}));
+document.getElementById('generate_rectangle')
+	.addEventListener('click', () => when_canvas_exists(() => {
+		state = add_shape(state)(make_shape(RECTANGLE))
+	}));
+window.requestAnimationFrame = polyfill_animation_frames();
+
+// attach movement
+canvas.addEventListener('mousedown', handle_mouse_down);
+const drag_and_highlight_listener = (event) => {
+	const is_dragging = state.selected_shapes.size !== 0 && state.holding_shape;
+	state = is_dragging 
+		? handle_shape_drag(event)
+		: handle_shape_highlight(event);
+};
+canvas.addEventListener('mousemove', drag_and_highlight_listener);
+canvas.addEventListener('mouseup', (event) => {
+    state.holding_shape = false;
 });
+canvas.addEventListener('click', handle_user_click);
 

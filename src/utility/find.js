@@ -15,16 +15,11 @@ const hovering_rectangle = (canvas, cursor, rect) => {
 };
 
 const hovering_circle = (canvas, cursor, circle) => {
-	// const {circ_x, circ_y, circ_r} = circle;
-	// const {point_x, point_y, point_r} = cursor;
 	const distanceBetweenCentersSquared = 
 		(circle.x - cursor.x) ** 2 + 
 		(circle.y - cursor.y) ** 2;
 	const sumOfRadiiSquared = (cursor.r + circle.r) ** 2;
 	return distanceBetweenCentersSquared < sumOfRadiiSquared;
-	// const distanceSquared = (point_x - circ_x) ** 2 + (point_y - circ_y) ** 2;
-	// const rooted_diff = Math.sqrt(distanceSquared);
-	// return rooted_diff <= r;
 };
 
 const find_nearby_shapes = canvas => possible_shapes => cursor => {
