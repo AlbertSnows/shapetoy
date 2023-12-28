@@ -55,8 +55,8 @@ const remove_shape = state => shape => {
 	state.existing_shapes.delete(shape.data.id);
 	return state;
 };
-const readd_shape = 
-	state => shape => add_shape(remove_shape(state)(shape))(shape);
+const readd_shape = state => shape => 
+	add_shape(remove_shape(state)(shape))(shape);
 
 const readd_selected_shape = state => shape => {
 	state = add_shape(remove_shape(state)(shape))(shape);

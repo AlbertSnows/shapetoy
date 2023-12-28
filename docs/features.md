@@ -35,4 +35,7 @@ few places that could be refined and abstracted to clean up the design.
 For example, I think the event handling file should have little to
 no actual functionality. It should just list the event listeners
 and which functions are attached to them. Other functions could be
-composed better, and so on. 
+composed better, and so on. I'd also like to use rambda rather than
+coming up with my own cobbled solutions to these problems.
+
+//todo: linke rambda...

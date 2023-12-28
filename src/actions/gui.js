@@ -108,6 +108,7 @@ const update_property_display = (document, state) => {
 	const should_add_properties = selected_length > existing_length;
 	const should_remove_properties = selected_length < existing_length;
 	const only_one = selected_shapes.size === 1;
+	// bonus: abstract repeated behavior
 	if(only_one) {
 		update_property(state)(selected_shapes);
 		selected_shapes.forEach((v, k) => highlight_shape(state)(v));

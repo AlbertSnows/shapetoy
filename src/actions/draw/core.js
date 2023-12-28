@@ -19,7 +19,6 @@ const fill_map = {
 	[RECTANGLE]: fill_rectangle,
 };
 
-
 const highlight_circle = canvas => circle => {
 	const { x, y, r } = circle;
 	const ctx = canvas.getContext('2d');
@@ -75,7 +74,8 @@ const style_types = {
 
 const draw_existing_shape = canvas => style => shape => {
 	const type = shape.width ? 'rectangle' : 'circle';
-	style_types[style][type](canvas)(shape);	
+	const draw = style_types[style][type];
+	draw(canvas)(shape);	
 };
 
 const draw_existing_shapes = canvas => style => existing_shapes => {

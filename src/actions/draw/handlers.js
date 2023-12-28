@@ -1,6 +1,7 @@
 import { generate_commands, generate_types } from "../define/core.js";
 import { draw_existing_shapes } from "./core.js";
 
+// bonus: abstract
 const add_shape = state => shape => {
 	state = generate_commands["generate"](state)(shape);
 	draw_existing_shapes(state.canvas)("fill")(state.existing_shapes);
