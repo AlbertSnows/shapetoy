@@ -3,8 +3,8 @@ import { CIRCLE, RECTANGLE } from '../../utility/constants.js';
 const generate_circle = () => {
 	const rx_value = Math.random();
 	const ry_value = Math.random();
-	const x = Math.max(35, Math.min(265, Math.floor(rx_value * (canvas.width))));
-	const y = Math.max(30, Math.min(115, Math.floor(ry_value * (canvas.height))));
+	const x = Math.max(40, Math.min(250, Math.floor(rx_value * (canvas.width))));
+	const y = Math.max(40, Math.min(105, Math.floor(ry_value * (canvas.height))));
 	const radius = Math.floor(0.5 * (50)) + 10;
 	const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 	const circle = new Quadtree.Circle({ 

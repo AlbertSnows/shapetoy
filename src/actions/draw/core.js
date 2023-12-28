@@ -47,12 +47,15 @@ const highlight_map = {
 const unhighlight_circle = canvas => circle => {
 	const { x, y, r } = circle;
 	const ctx = canvas.getContext('2d');
-	ctx.save();
-	ctx.arc(x, y, r , 0, Math.PI * 2, false);
-	ctx.clip();
-	ctx.clearRect(x - r, y - r, r * 2, r * 2);
-	ctx.restore();
-	fill_circle(canvas, circle);
+	ctx.beginPath();
+	ctx.clearRect(x - r - 4, y - r - 4, r * 2 + 8 , r * 2 + 8);
+	ctx.closePath();
+	// ctx.save();
+	// ctx.arc(x, y, r + 80 , 0, Math.PI * 2);
+	// ctx.clip();
+	// ctx.clearRect(x - r, y - r, r * 2, r * 2);
+	// ctx.restore();
+	fill_circle(canvas)(circle);
 
 	// ctx.beginPath();
 	// ctx.rect(0, 0, canvas.width, canvas.height);
