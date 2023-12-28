@@ -6,5 +6,10 @@ const add_shape = state => shape => {
 	draw_existing_shapes(state.canvas)("fill")(state.existing_shapes);
 	return state;
 };
+const redraw_selected_shape = state => shape => {
+	state = generate_commands["regenerate_selected"](state)(shape);
+	draw_existing_shapes(state.canvas)("fill")(state.existing_shapes);
+	return state;
+};
 const make_shape = type => generate_types[type]();
-export { add_shape, make_shape };
+export { add_shape, make_shape, redraw_selected_shape };

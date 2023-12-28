@@ -1,6 +1,7 @@
 import { filter_map } from "../utility/core.js";
 import { CIRCLE, RECTANGLE } from "../utility/constants.js";
 import { highlight_shape, unhighlight_shapes } from "./draw/highlight.js";
+import { redraw_selected_shape } from "./draw/handlers.js";
 const make_range = (value, class_id) => {
     // Create a range input for width
     const range = document.createElement('input');
@@ -61,11 +62,24 @@ const property_generator = {
 	[RECTANGLE]: generate_rectangle,
 	[CIRCLE]: generate_circle
 };
-const handle_property_box_input_change = state => (e) => {
+const property_update_map = {
+	// redraw_selected_shape
+	"width-input": r => v => { r.width = v; return r; },
+	"height-input": r => v => { r.height = v; return r; },
+	"radius": c => v => { c.r = v; return c; },
+	"x-coord": s => v => { s.x = v; return s; },
+	"y-coord": 	s => v => { s.y = v; return s; },
+	"color-input": 	s => v => { s.data.color = v; return s; },
+};
+const handle_property_box_input_change = state => e => {
 	const changed_input = e.target;
 	const parent_box = e.currentTarget;
 	const id = parent_box.id;
-	//todo: handle any input box change
+	const change_type = changed_input.className;
+	const shape = state.existing_shapes.get(id);
+	const change_value = parseInt(changed_input.value);
+	const updated_shape = property_update_map[change_type](shape)(change_value);
+	return redraw_selected_shape(state)(updated_shape);
 };
 const add_to_page = state => (v, k) => {
 	const type = v.width ? RECTANGLE : CIRCLE;
