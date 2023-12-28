@@ -5,6 +5,7 @@ import { find_closest_shape } from "../utility/find.js";
 import { update_property_display } from "../actions/gui.js";
 import { add_shape, make_shape } from "../actions/draw/handlers.js";
 import { CIRCLE, RECTANGLE } from "../utility/constants.js";
+import { highlight_shape, unhighlight_shapes, unhighlight_shape } from "../actions/draw/highlight.js";
 const canvas = document.getElementById("canvas");
 let state = {
 		cursor: new Quadtree.Circle({
@@ -42,18 +43,21 @@ const listen_for_shape_highlight = event => {
 	state.cursor = update_cursor(event, state.cursor);
 	const closest_shape = find_closest_shape(state);
 	const hovering = closest_shape !== null;
-	const was_hovering = state.hovered_shape === null;
+	const was_hovering = state.hovered_shape !== null;
 	const same_shape = state.hovered_shape == closest_shape;
 
 	if(!hovering && was_hovering) {
-		state = unhighlight_shape(state, closest_shape);
+		unhighlight_shape(state)(state.hovered_shape);
+		state.hovered_shape = null;
 	} else if(hovering && !was_hovering) {
-		state = highlight_shape(closest_shape);
+		highlight_shape(state)(closest_shape);
+		state.hovered_shape = closest_shape;
 	} else if(hovering && was_hovering && !same_shape) {
-		state = unhighlight_shape(state);
-		state = highlight_shape(closest_shape);
+		state.hovered_shape = closest_shape;
+		unhighlight_shape(state)(closest_shape);
+		highlight_shape(state)(closest_shape);
 	} // else not highlighting anything or highlighting same object
-
+	return state;
 };
 // attach generate
 document.getElementById('generate_circle')
@@ -76,7 +80,7 @@ const drag_and_highlight_listener = (event) => {
 	if(state.selected_shapes.size !== 0) {
 		// listen_for_shape_drag(event);
 	} else {
-		// listen_for_shape_highlight(event);
+		state = listen_for_shape_highlight(event);
 	}
 };
 canvas.addEventListener('mousemove', drag_and_highlight_listener);

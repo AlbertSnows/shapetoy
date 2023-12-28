@@ -98,6 +98,8 @@ const update_property_display = (document, state) => {
 	if(only_one) {
 		update_property(state)(selected_shapes);
 		selected_shapes.forEach((v, k) => highlight_shape(state)(v));
+		const shapes_to_unhighlight = filter_map((p, i) => !selected_shapes.has(p[0]))(state.existing_shapes);
+		unhighlight_shapes(state)(shapes_to_unhighlight);
 	} else if(should_add_properties) {
 		const shapes_to_add = filter_map((p, i) => !ids.has(p[0]))(selected_shapes);
 		selected_shapes.forEach((v, k) => highlight_shape(state)(v));
