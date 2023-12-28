@@ -37,5 +37,8 @@ no actual functionality. It should just list the event listeners
 and which functions are attached to them. Other functions could be
 composed better, and so on. I'd also like to use rambda rather than
 coming up with my own cobbled solutions to these problems.
+I'd also like to spend more time learning about ways
+to make currying look cleaner in JS so I don't have to do
+stuff like `lots(of)(parens)(that)(dont)(look)(great)`.
 
-//todo: linke rambda...
+Rambda: <https://ramdajs.com/>

@@ -32,18 +32,20 @@ The key takeaway is to have a single source of truth,
 simple data structures, and to abstract towards function composition where possible. Also, maps are extremely powerful. My inspirations come from
 clojure. 
 
-//todo... link clojure
+Clojure: <https://clojure.org/>
 
 ## Code design musings
 
 I like dynamic code because I can focus on implementation and instead of making the type system happy. With that said, I fixed a lot more minor bugs than the java project. However, the total time is lower since the bugs were mundane and easy to spot. And yet, there were enough gotcha's that frankly it's probably best to just use a type system 
 over nothing.
 
-I've talked about this with other friends and coworkers in the past, but I envision the future of 
-type safety heading toward schemas. It's the best of both worlds and to my knowledge has been best expressed in features and libraries such as malli, 
+I've talked about this with other friends and coworkers in the past, but I envision the future of
+type safety heading toward schemas. It's the best of both worlds and to my knowledge has been best expressed in features and libraries such as malli,
 various json schema validators, and C++'s new concepts and constraints. I'll share links below.
 
-// todo... add links
+Malli: <https://github.com/metosin/malli>
+Json Schema in java: <https://github.com/networknt/json-schema-validator>
+C++ concepts talk: <https://youtu.be/_doRiQS4GS8> (42 mins in is interesting!)
 
 Type disputes are frivolous anyways. In terms of
 architecture, there isn't much. Most of the focus was on compartmentilization 
@@ -55,4 +57,4 @@ appeal of this is very loosely inpired by frameworks I've used in the past
 like Fulcro, but it would be more accurate to say that maintaining a single
 source of truth is a reliable software design concept in most cases.
 
-// https://github.com/fulcrologic/fulcro
+Fulcro: <https://github.com/fulcrologic/fulcro>
