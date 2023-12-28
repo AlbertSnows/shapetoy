@@ -1,10 +1,12 @@
 import {v4 as uuidv4 } from 'https://cdn.jsdelivr.net/npm/uuid@9.0.1/+esm';
 import { CIRCLE, RECTANGLE } from '../../utility/constants.js';
 const generate_circle = () => {
-	var x = Math.floor(Math.random() * (canvas.width-60));
-	var y = Math.floor(Math.random() * (canvas.height-30));
-	var radius = Math.floor(1 * (50)) + 10;
-	var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+	const rx_value = Math.random();
+	const ry_value = Math.random();
+	const x = Math.max(35, Math.min(265, Math.floor(rx_value * (canvas.width))));
+	const y = Math.max(30, Math.min(115, Math.floor(ry_value * (canvas.height))));
+	const radius = Math.floor(0.5 * (50)) + 10;
+	const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 	const circle = new Quadtree.Circle({ 
 		x: x, 
 		y: y, 
@@ -19,10 +21,14 @@ const generate_circle = () => {
 };
 
 const generate_rectangle = () => {
-	var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+	const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+	const rx_value = Math.random();
+	const ry_value = Math.random();
+	const x = Math.max(20, Math.min(225, Math.floor(rx_value * (canvas.width))));
+	const y = Math.max(20, Math.min(80, Math.floor(ry_value * (canvas.height))));
 	const rect = new Quadtree.Rectangle({
-		x: Math.random() * (canvas.width-60),
-		y: Math.random() * (canvas.height-30),
+		x: x,
+		y: y,
 		width: Math.floor(1 * 50) + 10,
 		height: Math.floor(1 * 50) + 10,
 		data: {

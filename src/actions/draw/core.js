@@ -28,6 +28,8 @@ const highlight_circle = canvas => circle => {
 	ctx.strokeStyle = 'blue';
 	ctx.lineWidth = 3;
 	ctx.stroke();
+	ctx.closePath();
+	fill_circle(canvas)(circle);
 };
 const highlight_rectangle = canvas => rect => {
 	const { x, y, width, height } = rect;
@@ -45,12 +47,19 @@ const highlight_map = {
 const unhighlight_circle = canvas => circle => {
 	const { x, y, r } = circle;
 	const ctx = canvas.getContext('2d');
-	ctx.beginPath();
-	ctx.rect(0, 0, canvas.width, canvas.height);
-	ctx.arc(x, y, r, 0, Math.PI * 2, true); 
-	ctx.closePath();
+	ctx.save();
+	ctx.arc(x, y, r , 0, Math.PI * 2, false);
 	ctx.clip();
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.clearRect(x - r, y - r, r * 2, r * 2);
+	ctx.restore();
+	fill_circle(canvas, circle);
+
+	// ctx.beginPath();
+	// ctx.rect(0, 0, canvas.width, canvas.height);
+	// ctx.arc(x, y, r, 0, Math.PI * 2, true); 
+	// ctx.closePath();
+	// ctx.clip();
+	// ctx.clearRect(0, 0, canvas.width, canvas.height);
 };
 const unhighlight_rectangle = canvas => rect => {
 	const { x, y, width, height } = rect;
