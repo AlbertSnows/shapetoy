@@ -64,11 +64,11 @@ const property_generator = {
 };
 const property_update_map = {
 	// redraw_selected_shape
-	"width-input": r => v => { r.width = v; return r; },
-	"height-input": r => v => { r.height = v; return r; },
-	"radius": c => v => { c.r = v; return c; },
-	"x-coord": s => v => { s.x = v; return s; },
-	"y-coord": 	s => v => { s.y = v; return s; },
+	"width-input": r => v => { r.width = parseInt(v); return r; },
+	"height-input": r => v => { r.height = parseInt(v); return r; },
+	"radius": c => v => { c.r = parseInt(v); return c; },
+	"x-coord": s => v => { s.x = parseInt(v); return s; },
+	"y-coord": 	s => v => { s.y = parseInt(v); return s; },
 	"color-input": 	s => v => { s.data.color = v; return s; },
 };
 const handle_property_box_input_change = state => e => {
@@ -77,8 +77,7 @@ const handle_property_box_input_change = state => e => {
 	const id = parent_box.id;
 	const change_type = changed_input.className;
 	const shape = state.existing_shapes.get(id);
-	const change_value = parseInt(changed_input.value);
-	const updated_shape = property_update_map[change_type](shape)(change_value);
+	const updated_shape = property_update_map[change_type](shape)(changed_input.value);
 	return redraw_selected_shape(state)(updated_shape);
 };
 const add_to_page = state => (v, k) => {
