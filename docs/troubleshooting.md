@@ -3,25 +3,21 @@
 
 ## JS doesn't show up for scripts labeled module
 
-has something to do with CQRS thing maybe? I gave up, don't use module.
+has something to do with CQRS thing maybe? Make sure files end in .js when
+you import them (I think). Same goes for imported files in the html, or
+from URLs.
 
-## "module" was a bare specifier
-
-below is wrong, the reason is unknown, but for now I've just added
-src scripts in the html.
-
-Never  figured out the cause, but seems to be related to a static serve.
-Instead of serving from a static index.html file where we add the script, we
-should serve the file via express
-
-## disallowed mime type
+## "module" was a bare specifier or disallowed mime type
 
 make sure when you import a JS file it ends in '.js'
 
 ## defining objects with constant keys
 
+```js
 const X = "x";
 const obj = {
-	X: "foo", // this works
-	[X]: "bar" // this doesnt
+	[X]: "bar" // this works
+	X: "foo", // this doesnt
 };
+console.log(obj[X]);
+```

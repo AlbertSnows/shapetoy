@@ -21,7 +21,7 @@ To my knowledge, there is no easy way to further meaningfully
 increase the speed with respect to scalability because canvas
 doesn't keep track of the objects you draw. 
 
-Additionally, canvas does not have as many feature as it
+Additionally, canvas does not have as many features as it
 may seem. Once you need behavior more complex than simple shapes, the limitations become apparent. Even with circles,
 I ran into problems erasing the canvas. Currently it can
 only erase rectangular sections which is unfortunate. Again,
