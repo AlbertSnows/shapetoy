@@ -23,3 +23,8 @@ is with the rectangle shape as far as I know. So for any non-rectangle shapes,
 clearing the board is tedious. With that said, I don't know why the white 
 border stays around the circle after I do the clear. Figuring that out would
 be the first step in fixing that bug. 
+
+## circle 1 becomes the color of circle n - 1 afte 3+ circles
+
+No commentary on this since I only just learned about it, but
+it's good to document.
